@@ -1,47 +1,24 @@
-*.pyc
-.DS_Store
-/.venv/
-/static/
-/media/
-/local/
-/.vagrant/
-/Vagrantfile.local
-/docs/_build/
-*.pyc
-*.pyo
-.installed.cfg
-bin
-develop-eggs
-# dist
-downloads
-eggs
-parts
-src/*.egg-info
-lib
-lib64
-*.log
-*.pot
-madewithwagtail/settings/local.py
-static/CACHE/*
-.vagrant/*
-media/*
-.anaconda
-*.DS_Store
-*.sass-cache
-.idea
-.vscode
-.coverage
-.bundle
-dev.env
-temp/
+# build output
+dist/
 
-docker/database/*.sql
+# generated types
+.astro/
 
-legacy/core/static/css/*
-legacy/core/static/js/*
-!vendor/
-
-# node
+# dependencies
 node_modules/
-# bower
-bower_components/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
