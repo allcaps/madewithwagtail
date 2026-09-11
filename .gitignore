@@ -37,8 +37,8 @@ temp/
 
 docker/database/*.sql
 
-core/static/css/*
-core/static/js/*
+legacy/core/static/css/*
+legacy/core/static/js/*
 !vendor/
 
 # node
