@@ -19,7 +19,13 @@ const logo = lookupImage(id, '.max-120x120.webp');
   <a class="company-listing link-ghost" href={url}>
     <div class="media__image">
       {logo ? (
-        <img src={logo.src} alt={title} loading="lazy" width="80" height="80" />
+        <img
+          src={logo.src}
+          alt={title}
+          loading="lazy"
+          width={logo.width}
+          height={logo.height}
+        />
       ) : (
         <div class="company__placeholder"></div>
       )}
