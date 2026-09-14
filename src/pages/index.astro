@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import Pagination from '../components/Pagination.astro';
 import SiteCard from '../components/SiteCard.astro';
 import TagPills from '../components/TagPills.astro';
-import { withBase } from '../helpers.ts';
+import { facetSlug, withBase } from '../helpers.ts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const allSites = await getCollection('sites');
@@ -22,22 +22,14 @@ const sortedSites = allSites.sort(
 const totalPages = Math.ceil(sortedSites.length / PAGE_SIZE);
 const pageSites = sortedSites.slice(0, PAGE_SIZE);
 
-const tagCounts = new Map<string, number>();
+const sectorCounts = new Map<string, number>();
 for (const site of allSites) {
-  for (const tag of site.data.tags) {
-    const key = tag.toLowerCase();
-    tagCounts.set(key, (tagCounts.get(key) ?? 0) + 1);
+  for (const value of site.data.sector) {
+    sectorCounts.set(value, (sectorCounts.get(value) ?? 0) + 1);
   }
 }
-const tags = Array.from(tagCounts.entries())
-  .map(([slug, count]) => ({
-    name:
-      allSites
-        .find((s) => s.data.tags.some((t) => t.toLowerCase() === slug))
-        ?.data.tags.find((t) => t.toLowerCase() === slug) ?? slug,
-    slug,
-    count,
-  }))
+const sectors = Array.from(sectorCounts.entries())
+  .map(([name, count]) => ({ name, slug: facetSlug(name), count }))
   .sort((a, b) => b.count - a.count);
 
 function getCooperator(cooperatorSlug: string) {
@@ -58,7 +50,7 @@ function getCooperator(cooperatorSlug: string) {
   </div>
 
   <div class="content-width vertical-bottom-l">
-    <TagPills tags={tags.slice(0, 10)} />
+    <TagPills facet="sector" values={sectors.slice(0, 10)} />
   </div>
 
   <div class="content-width">

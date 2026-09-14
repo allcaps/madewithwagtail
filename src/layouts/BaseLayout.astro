@@ -21,7 +21,7 @@ function navIsActive(path: string): boolean {
     return (
       currentPath === target ||
       currentPath.startsWith(`${target}/page/`) ||
-      currentPath.startsWith(`${target}/sites/tag/`)
+      currentPath.startsWith(`${target}/sites/`)
     );
   }
   return currentPath === target || currentPath.startsWith(`${target}/`);

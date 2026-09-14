@@ -3,7 +3,7 @@ import { getCollection, getEntry, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import Icon from '../../../components/Icon.astro';
-import { withBase } from '../../../helpers.ts';
+import { facetSlug, withBase } from '../../../helpers.ts';
 import { lookupImage } from '../../../images.ts';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
@@ -96,13 +96,30 @@ const coopDev = siteEntry.data.in_cooperation_with_slug
 
         <hr>
 
-        <div class="btn-group">
-          {siteEntry.data.tags.map((tag: string) => (
-            <a href={withBase(`/sites/tag/${tag.toLowerCase()}/`)} class="btn -tag">
-              {tag}
-            </a>
-          ))}
-        </div>
+        {(siteEntry.data.sector.length > 0 ||
+          siteEntry.data.site_type.length > 0 ||
+          siteEntry.data.capability.length > 0) && (
+          <>
+            <hr>
+            <div class="btn-group">
+              {siteEntry.data.sector.map((value: string) => (
+                <a href={withBase(`/sites/sector/${facetSlug(value)}/`)} class="btn -tag">
+                  {value}
+                </a>
+              ))}
+              {siteEntry.data.site_type.map((value: string) => (
+                <a href={withBase(`/sites/type/${facetSlug(value)}/`)} class="btn -tag">
+                  {value}
+                </a>
+              ))}
+              {siteEntry.data.capability.map((value: string) => (
+                <a href={withBase(`/sites/capability/${facetSlug(value)}/`)} class="btn -tag">
+                  {value}
+                </a>
+              ))}
+            </div>
+          </>
+        )}
         {siteEntry.data.technologies.length > 0 && (
           <p class="project-technologies">
             Built with {siteEntry.data.technologies.join(', ')}

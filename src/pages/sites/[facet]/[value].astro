@@ -2,55 +2,60 @@
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import SiteCard from '../../../components/SiteCard.astro';
-import { withBase } from '../../../helpers.ts';
+import { facetSlug, withBase } from '../../../helpers.ts';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 export const getStaticPaths = (async () => {
+  const FACETS = { sector: 'sector', type: 'site_type', capability: 'capability' } as const;
   const allSites = await getCollection('sites');
-  const allDevelopers = await getCollection('developers');
-
-  const tagSet = new Set<string>();
-  for (const site of allSites) {
-    for (const tag of site.data.tags) {
-      tagSet.add(tag.toLowerCase());
+  const paths: { params: { facet: string; value: string }; props: { display: string } }[] = [];
+  for (const facet of Object.keys(FACETS) as (keyof typeof FACETS)[]) {
+    // slug -> display, first spelling wins
+    const values = new Map<string, string>();
+    for (const site of allSites) {
+      for (const value of site.data[FACETS[facet]] as string[]) {
+        const slug = facetSlug(value);
+        if (!values.has(slug)) values.set(slug, value);
+      }
+    }
+    for (const [value, display] of values) {
+      paths.push({ params: { facet, value }, props: { display } });
     }
   }
-
-  return Array.from(tagSet).map((tag) => ({
-    params: { tag },
-  }));
+  return paths;
 }) satisfies GetStaticPaths;
 
-const tag = Astro.params.tag as string;
+const { facet, value } = Astro.params;
+const { display } = Astro.props;
+
+const FACETS = { sector: 'sector', type: 'site_type', capability: 'capability' } as const;
+const field = FACETS[facet as keyof typeof FACETS] as 'sector' | 'site_type' | 'capability';
 
 const allSites = await getCollection('sites');
 const allDevelopers = await getCollection('developers');
 const devMap = new Map(allDevelopers.map((d) => [d.id, d]));
 
 const filteredSites = allSites
-  .filter((site) => site.data.tags.some((t: string) => t.toLowerCase() === tag))
-  // Sort by the site slug (last ID segment) so the listing is deterministic
-  // regardless of filesystem enumeration order.
-  .sort(
-    (a, b) =>
-      (a.id.split('/').at(-1) ?? a.id).localeCompare(b.id.split('/').at(-1) ?? b.id) ||
-      a.id.localeCompare(b.id),
-  );
-const displayName =
-  filteredSites.length > 0
-    ? (filteredSites[0].data.tags.find((t: string) => t.toLowerCase() === tag) ?? tag)
-    : tag;
+  .filter((site) => (site.data[field] as string[]).some((v) => facetSlug(v) === value))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const displayValue = display.charAt(0).toUpperCase() + display.slice(1);
+const facetLabel =
+  facet === 'type' ? 'Site type' : facet === 'capability' ? 'Capability' : 'Sector';
 
 function getCooperator(cooperatorSlug: string) {
   return devMap.get(cooperatorSlug);
 }
 ---
 
-<BaseLayout title={`Sites tagged "${displayName}"`}>
-  <div class="content-width">
+<BaseLayout title={`${displayValue} sites`}>
+  <div class="site-content content-width">
     <div class="banner">
-      <h1>Sites tagged with &ldquo;{displayName}&rdquo;</h1>
-      <a href={withBase('/')}>Show all sites</a>
+      <h1>{displayValue} sites</h1>
+      <div class="intro">
+        <p>{facetLabel}: &ldquo;{display}&rdquo;</p>
+        <a href={withBase('/')}>Show all sites</a>
+      </div>
     </div>
 
     <div class="grid grid-stack site-listing">

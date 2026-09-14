@@ -2,21 +2,22 @@
 import { withBase } from '../helpers.ts';
 
 interface Props {
-  tags: { name: string; slug: string; count: number }[];
-  activeTag?: string | null;
+  facet: 'sector' | 'type' | 'capability';
+  values: { name: string; slug: string; count: number }[];
+  activeValue?: string | null;
 }
 
-const { tags, activeTag } = Astro.props;
+const { facet, values, activeValue } = Astro.props;
 ---
 
 <div class="btn-group">
-  {tags.map((tag) => (
+  {values.map((value) => (
     <a
-      href={activeTag === tag.slug ? withBase('/') : withBase(`/sites/tag/${tag.slug}/`)}
-      class={`btn -tag${activeTag === tag.slug ? ' is-active' : ''}`}
+      href={activeValue === value.slug ? withBase('/') : withBase(`/sites/${facet}/${value.slug}/`)}
+      class={`btn -tag${activeValue === value.slug ? ' is-active' : ''}`}
     >
-      {tag.name}{" "}
-      <span>{tag.count}</span>
+      {value.name}{" "}
+      <span>{value.count}</span>
     </a>
   ))}
 </div>
