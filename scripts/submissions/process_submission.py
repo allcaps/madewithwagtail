@@ -51,6 +51,65 @@ from slugify import slugify
 
 SLUG_RE = r"^[a-z0-9][a-z0-9-]{0,49}$"
 
+# Controlled vocabularies for the site classification facets. Must match the
+# option lists in .github/ISSUE_TEMPLATE/site-submission.yml and the values
+# migrated into src/content/developers/**/index.md.
+SECTOR_VALUES = frozenset(
+    {
+        "agriculture",
+        "arts",
+        "climate",
+        "consumer",
+        "culture",
+        "education",
+        "energy",
+        "engineering",
+        "entertainment",
+        "environment",
+        "finance",
+        "food",
+        "forestry",
+        "games",
+        "government",
+        "healthcare",
+        "hospitality",
+        "industry",
+        "non-profit",
+        "professional services",
+        "research",
+        "retail",
+        "science",
+        "sport",
+        "sustainability",
+        "technology",
+        "telecom",
+        "travel",
+    }
+)
+SITE_TYPE_VALUES = frozenset(
+    {
+        "blog",
+        "documentation",
+        "e-commerce",
+        "events",
+        "news",
+        "portfolio",
+        "product",
+        "reports",
+    }
+)
+CAPABILITY_VALUES = frozenset(
+    {
+        "3D",
+        "booking",
+        "chatbot",
+        "headless",
+        "maps",
+        "multilingual",
+        "multisite",
+    }
+)
+
 RESERVED_SLUGS = frozenset(
     {
         "index",
@@ -80,7 +139,9 @@ class Proposal(BaseModel):
     site_url: str = Field(min_length=1, max_length=2000)
     site_title: str = Field(min_length=1, max_length=80)
     site_description: str = Field(min_length=1, max_length=800)
-    tags: list[str] = Field(max_length=5)
+    sector: list[str] = Field(default_factory=list)
+    site_type: list[str] = Field(default_factory=list)
+    capability: list[str] = Field(default_factory=list)
     developer_name: str = Field(min_length=1, max_length=80)
     developer_slug: str = Field(pattern=SLUG_RE)
     site_slug: str = Field(pattern=SLUG_RE)
@@ -108,7 +169,8 @@ CHECKBOX_RE = re.compile(r"^- \[([xX]| )\] (.*)$", re.MULTILINE)
 # Only the form's own labels are section boundaries: user-typed Markdown
 # containing `### Something` must stay inside the previous field's content.
 SECTION_RE = re.compile(
-    r"^### (?P<heading>Submission type|Site URL|Site title|Short description|Tags|"
+    r"^### (?P<heading>Submission type|Site URL|Site title|Short description|Sector|"
+    r"Site type|Capabilities|"
     r"Developer name|Developer URL|Developer location|Latitude|Longitude|GitHub username|"
     r"Logo URL|Other notes|Confirmations)[ \t]*$",
     re.MULTILINE,
@@ -121,7 +183,9 @@ FORM_HEADINGS = (
     "Site URL",
     "Site title",
     "Short description",
-    "Tags",
+    "Sector",
+    "Site type",
+    "Capabilities",
     "Developer name",
     "Developer URL",
     "Developer location",
@@ -158,8 +222,8 @@ def parse_issue_form_body(body: str) -> dict[str, str | list[str] | list[tuple[s
             return [
                 (label.strip(), mark.casefold() == "x") for mark, label in CHECKBOX_RE.findall(content)
             ]
-        if heading == "Tags":
-            return [tag.strip() for tag in content.split(",") if tag.strip()]
+        if heading in ("Sector", "Site type", "Capabilities"):
+            return [value.strip() for value in content.split(",") if value.strip()]
         return content
 
     result: dict[str, str | list[str] | list[tuple[str, bool]]] = {}
@@ -1439,8 +1503,18 @@ def build_proposal(
     if not developer_name:
         reasons.append("Fill in the developer name.")
 
-    # Tags (already list-valued from the parser).
-    tags = [t for t in (fields.get("Tags") or []) if isinstance(t, str) and t][:5]
+    # Facets (already list-valued from the parser), validated against the
+    # controlled vocabularies so typos can never reach the content files.
+    def facet_values(heading: str, allowed: frozenset[str], label: str) -> list[str]:
+        values = [v for v in (fields.get(heading) or []) if isinstance(v, str) and v.strip()]
+        for value in values:
+            if value not in allowed:
+                reasons.append(f"{value!r} is not a valid {label} option.")
+        return values
+
+    sector = facet_values("Sector", SECTOR_VALUES, "sector")
+    site_type = facet_values("Site type", SITE_TYPE_VALUES, "site type")
+    capability = facet_values("Capabilities", CAPABILITY_VALUES, "capability")
 
     # Developer existence / slug.
     developer_exists = submission_type == "existing-developer"
@@ -1518,7 +1592,9 @@ def build_proposal(
             site_url=site_url,
             site_title=site_title,
             site_description=site_description,
-            tags=tags,
+            sector=sector,
+            site_type=site_type,
+            capability=capability,
             developer_name=developer_name,
             developer_slug=developer_slug,
             site_slug=site_slug,
@@ -1544,7 +1620,6 @@ PROPOSAL_ERROR_REASONS = {
     "site_title": "The site title must be at most 80 characters.",
     "site_description": "The short description must be at most 800 characters.",
     "developer_name": "The developer name must be at most 80 characters.",
-    "tags": "Choose at most 5 tags.",
     "developer_location": "The developer location must be at most 100 characters.",
 }
 
@@ -1604,7 +1679,11 @@ def site_markdown(p: Proposal, technologies: dict[str, list[str]] | None = None)
         "latest_revision_created_at": _iso(p.submitted_at),
         "site_url": p.site_url,
         "in_cooperation_with_slug": None,
-        "tags": p.tags,
+        # Facet blocks are omitted entirely when empty: the Astro schemas
+        # default them to [], matching how migrated entries are written.
+        **({"sector": p.sector} if p.sector else {}),
+        **({"site_type": p.site_type} if p.site_type else {}),
+        **({"capability": p.capability} if p.capability else {}),
         # Complementary technologies from the Wappalyzer scan, e.g.
         # ["React", "Tailwind CSS"]. Omitted when nothing was detected:
         # the Astro schema defaults to [].
@@ -1671,12 +1750,12 @@ def _profile_line(p: Proposal) -> str:
     return name + suffix
 
 
-def _tag_links(p: Proposal) -> str:
-    """Tags linking to the live site's tag pages, as the site renders them."""
-    if not p.tags:
+def _facet_links(values: list[str], facet: str) -> str:
+    """Facet values linking to the live site's facet pages, as the site renders them."""
+    if not values:
         return "_(none)_"
     return ", ".join(
-        f"[{tag}]({LIVE_SITE_URL}/sites/tag/{tag.lower()}/)" for tag in p.tags
+        f"[{value}]({LIVE_SITE_URL}/sites/{facet}/{slugify(value)}/)" for value in values
     )
 
 
@@ -1745,7 +1824,9 @@ def build_pr_body(
         "|---|---|",
         f"| Site | <{p.site_url}> |",
         f"| Developer | {_profile_line(p)} |",
-        f"| Tags | {_tag_links(p)} |",
+        f"| Sector | {_facet_links(p.sector, 'sector')} |",
+        f"| Site type | {_facet_links(p.site_type, 'type')} |",
+        f"| Capabilities | {_facet_links(p.capability, 'capability')} |",
         f"| Detection | {_detection_value(detection)} |",
         f"| Screenshot | {screenshot_cell} |",
     ]
@@ -1787,7 +1868,7 @@ def build_pr_body(
         "",
         "- [ ] Site is live and built with Wagtail",
         "- [ ] Screenshot shows the site (not a cookie banner or login page)",
-        "- [ ] Tags are sensible",
+        "- [ ] Sector, site type, and capabilities are sensible",
         "- [ ] Description reads well",
         "- [ ] Developer details are correct" + (" (new profile: check the logo)" if not p.developer_exists else ""),
     ]

@@ -32,36 +32,73 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: tags
+    id: sector
     attributes:
-      label: Tags
-      description: Choose up to 5 tags describing the site
+      label: Sector
+      description: What the site's organisation does — choose all that apply (optional)
       multiple: true
       options:
-        - responsive
-        - business
-        - blog
-        - Education
+        - agriculture
+        - arts
+        - climate
+        - consumer
+        - culture
+        - education
+        - energy
+        - engineering
+        - entertainment
+        - environment
+        - finance
+        - food
+        - forestry
+        - games
+        - government
+        - healthcare
+        - hospitality
+        - industry
         - non-profit
-        - design
-        - portfolio
+        - professional services
+        - research
+        - retail
+        - science
+        - sport
+        - sustainability
+        - technology
+        - telecom
+        - travel
+    validations:
+      required: false
+  - type: dropdown
+    id: site-type
+    attributes:
+      label: Site type
+      description: What kind of site it is for its users — choose all that apply (optional)
+      multiple: true
+      options:
+        - blog
+        - documentation
+        - e-commerce
         - events
         - news
+        - portfolio
+        - product
+        - reports
+    validations:
+      required: false
+  - type: dropdown
+    id: capability
+    attributes:
+      label: Capabilities
+      description: What the build achieved — choose all that apply (optional)
+      multiple: true
+      options:
+        - 3D
+        - booking
+        - chatbot
+        - headless
+        - maps
         - multilingual
-        - industry
-        - website
-        - ux
-        - CMS
-        - culture
-        - healthcare
-        - e-commerce
-        - Research
-        - science
-        - developer
-        - tourism
-        - government
-        - agency
-        - travel
+        - multisite
     validations:
       required: false
   - type: input
