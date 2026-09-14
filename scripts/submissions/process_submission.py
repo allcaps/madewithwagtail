@@ -1751,11 +1751,11 @@ def _profile_line(p: Proposal) -> str:
 
 
 def _facet_links(values: list[str], facet: str) -> str:
-    """Facet values linking to the live site's facet pages, as the site renders them."""
+    """Facet values linking to the live site's tag pages, as the site renders them."""
     if not values:
         return "_(none)_"
     return ", ".join(
-        f"[{value}]({LIVE_SITE_URL}/sites/{facet}/{slugify(value)}/)" for value in values
+        f"[{value}]({LIVE_SITE_URL}/sites/tag/{slugify(value)}/)" for value in values
     )
 
 

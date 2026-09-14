@@ -8,40 +8,47 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 export const getStaticPaths = (async () => {
   const FACETS = { sector: 'sector', type: 'site_type', capability: 'capability' } as const;
   const allSites = await getCollection('sites');
-  const paths: { params: { facet: string; value: string }; props: { display: string } }[] = [];
-  for (const facet of Object.keys(FACETS) as (keyof typeof FACETS)[]) {
-    // slug -> display, first spelling wins
-    const values = new Map<string, string>();
+  // One flat /sites/tag/<slug>/ namespace across all facets, preserving the
+  // legacy tag page URLs for values whose slug matches an old tag.
+  const paths: {
+    params: { value: string };
+    props: { display: string; facetLabel: string };
+  }[] = [];
+  const bySlug = new Map<string, { display: string; facetLabel: string }>();
+  for (const [facet, field] of Object.entries(FACETS) as [string, string][]) {
+    const facetLabel = facet === 'type' ? 'Site type' : facet === 'capability' ? 'Capability' : 'Sector';
     for (const site of allSites) {
-      for (const value of site.data[FACETS[facet]] as string[]) {
+      for (const value of site.data[field as 'sector' | 'site_type' | 'capability'] as string[]) {
         const slug = facetSlug(value);
-        if (!values.has(slug)) values.set(slug, value);
+        const existing = bySlug.get(slug);
+        if (existing) {
+          if (existing.display !== value) {
+            throw new Error(`Duplicate tag slug across facets: ${slug} (${existing.display} / ${value})`);
+          }
+          continue;
+        }
+        bySlug.set(slug, { display: value, facetLabel });
+        paths.push({ params: { value: slug }, props: { display: value, facetLabel } });
       }
-    }
-    for (const [value, display] of values) {
-      paths.push({ params: { facet, value }, props: { display } });
     }
   }
   return paths;
 }) satisfies GetStaticPaths;
 
-const { facet, value } = Astro.params;
-const { display } = Astro.props;
+const { value } = Astro.params;
+const { display, facetLabel } = Astro.props;
 
-const FACETS = { sector: 'sector', type: 'site_type', capability: 'capability' } as const;
-const field = FACETS[facet as keyof typeof FACETS] as 'sector' | 'site_type' | 'capability';
+const field = facetLabel === 'Site type' ? 'site_type' : facetLabel === 'Capability' ? 'capability' : 'sector';
 
 const allSites = await getCollection('sites');
 const allDevelopers = await getCollection('developers');
 const devMap = new Map(allDevelopers.map((d) => [d.id, d]));
 
 const filteredSites = allSites
-  .filter((site) => (site.data[field] as string[]).some((v) => facetSlug(v) === value))
+  .filter((site) => (site.data[field as 'sector' | 'site_type' | 'capability'] as string[]).some((v) => facetSlug(v) === value))
   .sort((a, b) => a.data.title.localeCompare(b.data.title));
 
 const displayValue = display.charAt(0).toUpperCase() + display.slice(1);
-const facetLabel =
-  facet === 'type' ? 'Site type' : facet === 'capability' ? 'Capability' : 'Sector';
 
 function getCooperator(cooperatorSlug: string) {
   return devMap.get(cooperatorSlug);

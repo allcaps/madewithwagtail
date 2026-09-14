@@ -103,17 +103,17 @@ const coopDev = siteEntry.data.in_cooperation_with_slug
             <hr>
             <div class="btn-group">
               {siteEntry.data.sector.map((value: string) => (
-                <a href={withBase(`/sites/sector/${facetSlug(value)}/`)} class="btn -tag">
+                <a href={withBase(`/sites/tag/${facetSlug(value)}/`)} class="btn -tag">
                   {value}
                 </a>
               ))}
               {siteEntry.data.site_type.map((value: string) => (
-                <a href={withBase(`/sites/type/${facetSlug(value)}/`)} class="btn -tag">
+                <a href={withBase(`/sites/tag/${facetSlug(value)}/`)} class="btn -tag">
                   {value}
                 </a>
               ))}
               {siteEntry.data.capability.map((value: string) => (
-                <a href={withBase(`/sites/capability/${facetSlug(value)}/`)} class="btn -tag">
+                <a href={withBase(`/sites/tag/${facetSlug(value)}/`)} class="btn -tag">
                   {value}
                 </a>
               ))}
