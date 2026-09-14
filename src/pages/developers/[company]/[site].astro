@@ -5,6 +5,7 @@ import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import Icon from '../../../components/Icon.astro';
 import { facetSlug, withBase } from '../../../helpers.ts';
 import { lookupImage } from '../../../images.ts';
+import { formatLastUpdated } from '../../../lastmod.mjs';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 export const getStaticPaths = (async () => {
@@ -34,6 +35,8 @@ const parentDev = devMap.get(siteEntry.id.split('/')[0]);
 const coopDev = siteEntry.data.in_cooperation_with_slug
   ? devMap.get(siteEntry.data.in_cooperation_with_slug)
   : null;
+
+const lastUpdated = formatLastUpdated(siteEntry.data.latest_revision_created_at);
 ---
 
 <BaseLayout title={siteEntry.data.title}>
@@ -125,6 +128,7 @@ const coopDev = siteEntry.data.in_cooperation_with_slug
             Built with {siteEntry.data.technologies.join(', ')}
           </p>
         )}
+        {lastUpdated && <p class="last-updated">Last updated: {lastUpdated}</p>}
       </div>
     </div>
   </div>

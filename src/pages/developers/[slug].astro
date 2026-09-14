@@ -6,6 +6,7 @@ import Icon from '../../components/Icon.astro';
 import SiteCard from '../../components/SiteCard.astro';
 import { withBase } from '../../helpers.ts';
 import { lookupImage } from '../../images.ts';
+import { formatLastUpdated, latestDate } from '../../lastmod.mjs';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export const getStaticPaths = (async () => {
@@ -38,6 +39,11 @@ const allDevelopers = await getCollection('developers');
 const devMap = new Map(allDevelopers.map((d) => [d.id, d]));
 
 const { Content } = await render(developer);
+
+// The profile's "Last updated" date is the most recent site on it.
+const lastUpdated = formatLastUpdated(
+  latestDate(devSites.map((site) => site.data.latest_revision_created_at)),
+);
 
 function getCooperator(cooperatorSlug: string) {
   return devMap.get(cooperatorSlug);
@@ -141,5 +147,7 @@ function getCooperator(cooperatorSlug: string) {
         })}
       </div>
     </div>
+
+    {lastUpdated && <p class="last-updated">Last updated: {lastUpdated}</p>}
   </div>
 </BaseLayout>

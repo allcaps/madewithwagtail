@@ -3,11 +3,25 @@
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, passthroughImageService } from 'astro/config';
+import { getLastmodForUrl } from './src/lastmod.mjs';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://madewithwagtail.org',
-  integrations: [react(), sitemap()],
+  integrations: [
+    react(),
+    sitemap({
+      // <lastmod> for site and developer profile pages, from the
+      // latest_revision_created_at dates shown on those pages.
+      serialize(item) {
+        const lastmod = getLastmodForUrl(item.url);
+        if (lastmod) {
+          item.lastmod = lastmod;
+        }
+        return item;
+      },
+    }),
+  ],
   // Meta-refresh pages for the legacy tag URLs worth preserving; all other
   // legacy /sites/tag/ URLs are left to 404.
   redirects: {
