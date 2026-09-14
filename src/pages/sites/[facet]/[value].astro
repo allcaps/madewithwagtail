@@ -13,7 +13,8 @@ export const getStaticPaths = (async () => {
     props: { display: string; facetLabel: string };
   }[] = [];
   for (const [facet, field] of Object.entries(FACETS) as [string, string][]) {
-    const facetLabel = facet === 'type' ? 'Site type' : facet === 'capability' ? 'Capability' : 'Sector';
+    const facetLabel =
+      facet === 'type' ? 'Site type' : facet === 'capability' ? 'Capability' : 'Sector';
     // slug -> display, first spelling wins
     const values = new Map<string, string>();
     for (const site of allSites) {
