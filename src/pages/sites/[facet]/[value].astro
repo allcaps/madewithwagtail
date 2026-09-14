@@ -8,52 +8,39 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 export const getStaticPaths = (async () => {
   const FACETS = { sector: 'sector', type: 'site_type', capability: 'capability' } as const;
   const allSites = await getCollection('sites');
-  // One flat /sites/tag/<slug>/ namespace across all facets, preserving the
-  // legacy tag page URLs for values whose slug matches an old tag.
   const paths: {
-    params: { value: string };
+    params: { facet: string; value: string };
     props: { display: string; facetLabel: string };
   }[] = [];
-  const bySlug = new Map<string, { display: string; facetLabel: string }>();
   for (const [facet, field] of Object.entries(FACETS) as [string, string][]) {
-    const facetLabel =
-      facet === 'type' ? 'Site type' : facet === 'capability' ? 'Capability' : 'Sector';
+    const facetLabel = facet === 'type' ? 'Site type' : facet === 'capability' ? 'Capability' : 'Sector';
+    // slug -> display, first spelling wins
+    const values = new Map<string, string>();
     for (const site of allSites) {
       for (const value of site.data[field as 'sector' | 'site_type' | 'capability'] as string[]) {
         const slug = facetSlug(value);
-        const existing = bySlug.get(slug);
-        if (existing) {
-          if (existing.display !== value) {
-            throw new Error(
-              `Duplicate tag slug across facets: ${slug} (${existing.display} / ${value})`,
-            );
-          }
-          continue;
-        }
-        bySlug.set(slug, { display: value, facetLabel });
-        paths.push({ params: { value: slug }, props: { display: value, facetLabel } });
+        if (!values.has(slug)) values.set(slug, value);
       }
+    }
+    for (const [value, display] of values) {
+      paths.push({ params: { facet, value }, props: { display, facetLabel } });
     }
   }
   return paths;
 }) satisfies GetStaticPaths;
 
-const { value } = Astro.params;
+const { facet, value } = Astro.params;
 const { display, facetLabel } = Astro.props;
 
-const field =
-  facetLabel === 'Site type' ? 'site_type' : facetLabel === 'Capability' ? 'capability' : 'sector';
+const FACETS = { sector: 'sector', type: 'site_type', capability: 'capability' } as const;
+const field = FACETS[facet as keyof typeof FACETS] as 'sector' | 'site_type' | 'capability';
 
 const allSites = await getCollection('sites');
 const allDevelopers = await getCollection('developers');
 const devMap = new Map(allDevelopers.map((d) => [d.id, d]));
 
 const filteredSites = allSites
-  .filter((site) =>
-    (site.data[field as 'sector' | 'site_type' | 'capability'] as string[]).some(
-      (v) => facetSlug(v) === value,
-    ),
-  )
+  .filter((site) => (site.data[field] as string[]).some((v) => facetSlug(v) === value))
   .sort((a, b) => a.data.title.localeCompare(b.data.title));
 
 const displayValue = display.charAt(0).toUpperCase() + display.slice(1);
