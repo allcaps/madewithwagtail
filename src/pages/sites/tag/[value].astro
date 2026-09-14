@@ -16,14 +16,17 @@ export const getStaticPaths = (async () => {
   }[] = [];
   const bySlug = new Map<string, { display: string; facetLabel: string }>();
   for (const [facet, field] of Object.entries(FACETS) as [string, string][]) {
-    const facetLabel = facet === 'type' ? 'Site type' : facet === 'capability' ? 'Capability' : 'Sector';
+    const facetLabel =
+      facet === 'type' ? 'Site type' : facet === 'capability' ? 'Capability' : 'Sector';
     for (const site of allSites) {
       for (const value of site.data[field as 'sector' | 'site_type' | 'capability'] as string[]) {
         const slug = facetSlug(value);
         const existing = bySlug.get(slug);
         if (existing) {
           if (existing.display !== value) {
-            throw new Error(`Duplicate tag slug across facets: ${slug} (${existing.display} / ${value})`);
+            throw new Error(
+              `Duplicate tag slug across facets: ${slug} (${existing.display} / ${value})`,
+            );
           }
           continue;
         }
@@ -38,14 +41,19 @@ export const getStaticPaths = (async () => {
 const { value } = Astro.params;
 const { display, facetLabel } = Astro.props;
 
-const field = facetLabel === 'Site type' ? 'site_type' : facetLabel === 'Capability' ? 'capability' : 'sector';
+const field =
+  facetLabel === 'Site type' ? 'site_type' : facetLabel === 'Capability' ? 'capability' : 'sector';
 
 const allSites = await getCollection('sites');
 const allDevelopers = await getCollection('developers');
 const devMap = new Map(allDevelopers.map((d) => [d.id, d]));
 
 const filteredSites = allSites
-  .filter((site) => (site.data[field as 'sector' | 'site_type' | 'capability'] as string[]).some((v) => facetSlug(v) === value))
+  .filter((site) =>
+    (site.data[field as 'sector' | 'site_type' | 'capability'] as string[]).some(
+      (v) => facetSlug(v) === value,
+    ),
+  )
   .sort((a, b) => a.data.title.localeCompare(b.data.title));
 
 const displayValue = display.charAt(0).toUpperCase() + display.slice(1);
