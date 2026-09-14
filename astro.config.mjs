@@ -3,15 +3,20 @@
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, passthroughImageService } from 'astro/config';
-import { tagRedirects } from './src/tag-redirects.mjs';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://madewithwagtail.org',
   integrations: [react(), sitemap()],
-  // Meta-refresh pages for legacy /sites/tag/<slug>/ URLs that no longer
-  // resolve to a facet page (the only redirect mechanism on GitHub Pages).
-  redirects: tagRedirects,
+  // Meta-refresh pages for the legacy tag URLs worth preserving; all other
+  // legacy /sites/tag/ URLs are left to 404.
+  redirects: {
+    '/sites/tag/education': '/sites/sector/education/',
+    '/sites/tag/blog': '/sites/type/blog/',
+    '/sites/tag/portfolio': '/sites/type/portfolio/',
+    '/sites/tag/industry': '/sites/sector/industry/',
+    '/sites/tag/news': '/sites/type/news/',
+  },
   // Serve content images as-is: no resizing, re-encoding, or format conversion.
   image: { service: passthroughImageService() },
   vite: {
