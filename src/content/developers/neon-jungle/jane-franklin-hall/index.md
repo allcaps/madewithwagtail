@@ -3,26 +3,15 @@ title: Jane Franklin Hall
 first_published_at: "2019-10-23T14:17:12.253323+13:00"
 latest_revision_created_at: "2019-10-23T14:17:12.113105+13:00"
 site_url: https://jane.edu.au
-tags:
+sector:
   - education
-  - engagement
-  - developer
-  - bookings
-  - academia
-  - community
-  - studying
+  - non-profit
   - culture
-  - digital transformation
-  - knowledge
-  - courses
-  - open source
-  - diversity
-  - people
-  - accessibility
-  - images
-  - university
-  - cultural
-  - school
+  - technology
+site_type:
+  - documentation
+capability:
+  - booking
 ---
 
 Jane Franklin Hall is a residential college for students studying at the University of Tasmania. They are the premier college experience in Hobart, and produce the future leaders, innovators and thinkers of society.

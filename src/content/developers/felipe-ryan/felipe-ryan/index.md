@@ -4,9 +4,10 @@ first_published_at: "2015-08-26T09:10:19.593492+12:00"
 latest_revision_created_at: "2015-08-26T09:10:19.566060+12:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.feliperyan.com/
-tags:
+site_type:
   - blog
-  - heroku
+technologies:
+  - Heroku
 ---
 
 Felipe Ryan talking about Data Science, Salesforce and Tech on his personal site running on Heroku.

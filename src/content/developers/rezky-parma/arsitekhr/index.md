@@ -3,8 +3,7 @@ title: ArsitekHR
 first_published_at: "2026-09-10T08:10:47.918864+00:00"
 latest_revision_created_at: "2026-09-10T08:10:47.918864+00:00"
 site_url: https://www.arsitekhr.com/
-tags:
-  - business
+sector:
   - education
 ---
 

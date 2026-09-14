@@ -3,9 +3,9 @@ title: Big Society Capital
 first_published_at: "2022-06-15T13:44:49.121120+00:00"
 latest_revision_created_at: "2022-06-15T13:44:49.121120+00:00"
 site_url: https://bettersocietycapital.com/
-tags:
+sector:
   - non-profit
-  - charity
+site_type:
   - portfolio
 ---
 

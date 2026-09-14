@@ -4,8 +4,6 @@ first_published_at: "2018-03-14T16:38:38.325935+13:00"
 latest_revision_created_at: "2018-03-14T16:38:38.285681+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://debvk.nl/
-tags:
-  - business
 ---
 
 De BVK is branch organisation for specialists that work for local governments in the Netherlands. With over 7500 members they build their own community to improve themselves in their work.

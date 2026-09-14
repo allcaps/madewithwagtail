@@ -4,7 +4,7 @@ first_published_at: "2017-11-06T09:39:57.610060+13:00"
 latest_revision_created_at: "2017-12-05T11:20:45.869388+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://lesjardinsdematisse.fr
-tags:
+sector:
   - healthcare
 ---
 

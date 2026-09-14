@@ -4,10 +4,6 @@ first_published_at: "2024-06-12T17:45:16.179109+12:00"
 latest_revision_created_at: "2024-06-12T17:45:16.081167+12:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://100.ract.com.au/
-tags:
-  - parallax
-  - interactive
-  - timeline
 ---
 
 To celebrate their 100th birthday, Royal Automobile Club of Tasmania (RACT) asked us to create a website that told the story of their rich history and showcased how they've been helping Tasmanians for an entire century.

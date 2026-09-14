@@ -3,25 +3,15 @@ title: Takeflight
 first_published_at: "2017-11-22T11:08:58.366368+13:00"
 latest_revision_created_at: "2018-01-16T16:56:36.562209+13:00"
 site_url: https://takeflight.com.au/
-tags:
-  - industry
-  - engagement
-  - agency
-  - people
-  - consultancy
-  - chatbot
-  - small-business
-  - corporate
-  - foundation
-  - studio
-  - digital agency
-  - knowledge
-  - company
-  - developer
-  - business
-  - articles
-  - images
+sector:
+  - professional services
+  - non-profit
   - technology
+site_type:
+  - documentation
+  - blog
+capability:
+  - chatbot
 ---
 
 Takeflight are a bunch of highly skilled developers and designers who create innovative and engaging websites and apps.

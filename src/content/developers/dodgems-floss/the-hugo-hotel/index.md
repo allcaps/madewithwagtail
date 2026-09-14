@@ -3,12 +3,11 @@ title: The Hugo Hotel
 first_published_at: "2025-05-19T20:56:17.111946+12:00"
 latest_revision_created_at: "2025-05-19T22:50:41.074876+12:00"
 site_url: https://thehugo.co.uk/
-tags:
-  - canterbury
-  - data
-  - hotels
-  - business
-  - api
+sector:
+  - technology
+  - hospitality
+capability:
+  - headless
 ---
 
 The Hugo, a boutique hotel situated right in the heart of Canterbury’s historic city centre.

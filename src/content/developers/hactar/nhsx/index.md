@@ -5,9 +5,9 @@ latest_revision_created_at: "2020-04-24T20:43:03.741443+12:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.nhsx.nhs.uk
 in_cooperation_with_slug: dxw
-tags:
-  - nhs
-  - gov.uk
+sector:
+  - healthcare
+  - government
 ---
 
 NHSX is a new unit within the UK National Health Service driving forward the digital transformation of health and social care.

@@ -3,7 +3,6 @@ title: DjangoDevOps.pro
 first_published_at: "2025-03-17T18:18:31.356903+00:00"
 latest_revision_created_at: "2025-03-17T18:18:31.356903+00:00"
 site_url: https://djangodevops.pro/
-tags: []
 ---
 
 Technical Specifications

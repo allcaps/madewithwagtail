@@ -3,11 +3,9 @@ title: NewSouth Books
 first_published_at: "2024-06-12T17:52:41.491357+12:00"
 latest_revision_created_at: "2024-06-12T17:52:41.370106+12:00"
 site_url: https://newsouthbooks.com.au/
-tags:
-  - data
-  - publishing
-  - b2b
-  - university
+sector:
+  - technology
+  - education
 ---
 
 The New South Books and UNSW Press websites are specialist book publishing, sales, marketing and distribution forces, owned by the University of New South Wales.

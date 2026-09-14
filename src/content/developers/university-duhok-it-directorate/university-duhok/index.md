@@ -3,7 +3,7 @@ title: University of Duhok
 first_published_at: "2016-03-13T10:39:42.034079+13:00"
 latest_revision_created_at: "2016-03-13T10:39:42.005234+13:00"
 site_url: https://web.uod.ac/
-tags:
+sector:
   - education
 ---
 

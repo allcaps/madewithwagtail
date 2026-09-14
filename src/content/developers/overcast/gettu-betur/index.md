@@ -4,8 +4,6 @@ first_published_at: "2016-02-17T20:40:44.279080+13:00"
 latest_revision_created_at: "2016-10-06T03:57:01.780260+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://gettubetur.overcast.io
-tags:
-  - quiz
 ---
 
 A quiz game we made for a sponsor of the most popular quiz show between colleges in Iceland. Uses snippets for questions and Streamfield components for pages setup.

@@ -3,16 +3,18 @@ title: Aeriform Archive
 first_published_at: "2023-09-19T17:06:21.710310+12:00"
 latest_revision_created_at: "2023-09-19T17:28:26.875443+12:00"
 site_url: https://aeriform-archive.org/
-tags:
-  - nextjs
-  - 3d
-  - art
-  - artist
-  - react
+sector:
+  - arts
   - entertainment
-  - graphql
-  - weather
-  - three.js
+site_type:
+  - portfolio
+capability:
+  - 3D
+technologies:
+  - Next.js
+  - React
+  - GraphQL
+  - Three.js
 ---
 
 Hannah Foley's latest project, Wet Breath Exchange, is an exploratory engagement with the Bridgewater Jerry – a sporadic, dissipating foggy phenomenon that defines the onset of winter for Hobartians. The project invites participants to perform an exchange, record the interaction and submit their contribution to the archive. Over time, this digital library will become a body of work in itself – a soundscape of encounters spread across an infinite watery canvas.

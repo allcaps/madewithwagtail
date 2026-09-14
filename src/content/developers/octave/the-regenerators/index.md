@@ -3,7 +3,6 @@ title: The Regenerators
 first_published_at: "2023-11-28T03:32:15.774108+00:00"
 latest_revision_created_at: "2023-11-28T03:32:15.774108+00:00"
 site_url: https://theregenerators.org/
-tags: []
 ---
 
 The Regenerators are an impact organisation dedicated to producing content that informs and inspires communities to take action to regenerate and heal the planet. 

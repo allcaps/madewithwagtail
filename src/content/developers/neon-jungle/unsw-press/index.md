@@ -3,13 +3,10 @@ title: UNSW Press
 first_published_at: "2021-12-14T13:15:46.596805+13:00"
 latest_revision_created_at: "2023-09-19T17:31:48.731720+12:00"
 site_url: https://unsw.press/
-tags:
-  - publishing
-  - not-for-profit
-  - data
-  - library
-  - university
-  - books
+sector:
+  - non-profit
+  - technology
+  - education
 ---
 
 UNSW Press is a not-for-profit company responsible for publishing, representing and distributing books throughout Australia and New Zealand under the University of New South Wales entity.

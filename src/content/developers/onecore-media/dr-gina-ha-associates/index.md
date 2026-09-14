@@ -4,8 +4,8 @@ first_published_at: "2019-12-11T16:07:11.544993+13:00"
 latest_revision_created_at: "2019-12-11T16:07:11.479216+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.drginahaandassociates.com/
-tags:
-  - dentist
+sector:
+  - healthcare
 ---
 
 Throughout Dr. Gina Ha’s 20 years in the dental field, she has been committed to putting a confident smile on every face that walks through the door. Her strong attention to detail, advanced technique, and ability to artistically design smiles that are perfectly suited to facial features, set her apart.

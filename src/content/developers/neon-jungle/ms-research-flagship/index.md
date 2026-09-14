@@ -3,10 +3,10 @@ title: MS Research Flagship
 first_published_at: "2024-06-12T17:57:54.149225+12:00"
 latest_revision_created_at: "2024-06-12T17:57:54.001714+12:00"
 site_url: https://msresearchflagship.org.au/
-tags:
-  - health
+sector:
+  - healthcare
   - research
-  - university
+  - education
 ---
 
 The Multiple Sclerosis Research Flagship is a Flagship program of the University of Tasmania, College of Health and Medicine and was established from a long history of multiple sclerosis (MS) research at Menzies Institute for Medical Research.

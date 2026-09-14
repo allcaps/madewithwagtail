@@ -3,11 +3,9 @@ title: Echoview
 first_published_at: "2021-10-05T18:23:53.703423+13:00"
 latest_revision_created_at: "2021-10-05T18:23:53.620858+13:00"
 site_url: https://echoview.com/
-tags:
+sector:
   - science
-  - business
-  - marine
-  - corporate
+  - environment
 ---
 
 Echoview is the world’s premier software package for hydroacoustic data processing, offering an impressive suite of products and services for marine organisations.

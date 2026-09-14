@@ -4,8 +4,8 @@ first_published_at: "2017-11-15T13:07:52.936981+13:00"
 latest_revision_created_at: "2017-11-15T13:07:52.903924+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://mpljasper.com/
-tags:
-  - hotels
+sector:
+  - hospitality
 ---
 
 Mountain Park Lodges offers accommodation at six premium hotels and resorts located in and around Jasper, Alberta in the Canadian Rocky Mountains. Their diverse properties are ideal for ski vacations, summer hiking trips or weddings, meetings and events.

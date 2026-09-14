@@ -3,12 +3,10 @@ title: Tassie Tourism Ambassador Program
 first_published_at: "2021-10-05T16:45:42.746585+13:00"
 latest_revision_created_at: "2021-10-05T17:53:49.902554+13:00"
 site_url: https://tassietourismambassador.com.au/
-tags:
+sector:
   - education
-  - tourism
+  - travel
   - non-profit
-  - community
-  - e-learning
 ---
 
 The Tassie Tourism Ambassador Program has been created specifically for the Tasmanian Tourism industry as a way to equip tourism and hospitality staff and interested locals with the skills to offer a great visitor experience and local knowledge to tell the story of the region.

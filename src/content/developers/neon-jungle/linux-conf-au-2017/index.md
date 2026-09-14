@@ -4,13 +4,13 @@ first_published_at: "2017-03-14T05:29:02.598051+13:00"
 latest_revision_created_at: "2017-03-14T05:30:35.512179+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.linux.conf.au/
-tags:
-  - events
-  - conference
-  - open source
+sector:
+  - technology
   - non-profit
+site_type:
+  - events
+capability:
   - booking
-  - developer
 ---
 
 linux.conf.au (aka LCA) is Australia’s largest open source technology conference and one of the most well-regarded development conferences in the Asia-Pacific region. In its 18th year, LCA2017 brought together the Australian, New Zealand, and international communities for standout presentations, demonstrations, and relationship building in Hobart, Tasmania. It is a deeply technical conference, well attended by pre-eminent practitioners in the field, both professionals and hobbyists.

@@ -3,10 +3,10 @@ title: JIREH Industries
 first_published_at: "2018-01-16T11:25:42.547546+13:00"
 latest_revision_created_at: "2018-01-16T11:25:42.504620+13:00"
 site_url: https://www.jireh.com/
-tags:
-  - robots
-  - video
-  - industrial
+sector:
+  - technology
+  - arts
+  - industry
 ---
 
 JIREH INDUSTRIES designs and manufactures scanners used in testing across a variety of industries including oil & gas, power generation, and aersopace. The scope of the products are highly specialized and JIREH is a leader in their space. Each product is highly technical, functional, and beautiful in it's own right.

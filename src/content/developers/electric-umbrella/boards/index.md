@@ -4,9 +4,10 @@ first_published_at: "2016-02-09T08:52:19.528665+13:00"
 latest_revision_created_at: "2016-02-09T08:52:19.498087+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://ontheboards.ca
-tags:
+site_type:
   - events
-  - tickets
+capability:
+  - booking
 ---
 
 A website and box office ticketing for a small non-profit theatre.

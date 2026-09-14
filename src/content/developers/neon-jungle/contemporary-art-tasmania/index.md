@@ -3,12 +3,10 @@ title: Contemporary Art Tasmania
 first_published_at: "2026-01-13T12:46:33.653097+13:00"
 latest_revision_created_at: "2026-01-13T12:46:33.441616+13:00"
 site_url: https://contemporaryarttasmania.org/
-tags:
-  - gallery
-  - art
+sector:
+  - culture
   - arts
-  - community
-  - archive
+  - non-profit
 ---
 
 Contemporary Art Tasmania (CAT) is a leading Tasmanian art space dedicated to contemporary and experimental art. CAT invited us to refresh their existing branding to realign with their values and connect with new audiences.

@@ -3,7 +3,7 @@ title: Nautic Advisor
 first_published_at: "2016-03-31T10:21:54.400033+13:00"
 latest_revision_created_at: "2016-03-31T10:21:54.367991+13:00"
 site_url: https://www.nauticadvisor.com/blog
-tags:
+site_type:
   - blog
 ---
 

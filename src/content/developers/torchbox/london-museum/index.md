@@ -3,9 +3,10 @@ title: London Museum
 first_published_at: "2026-09-07T10:38:18.694350+00:00"
 latest_revision_created_at: "2026-09-07T10:38:18.694350+00:00"
 site_url: https://www.londonmuseum.org.uk/
-tags:
-  - tourism
+sector:
+  - travel
   - education
+site_type:
   - news
 ---
 

@@ -3,9 +3,10 @@ title: Samaritans
 first_published_at: "2021-09-27T14:27:04.806067+00:00"
 latest_revision_created_at: "2021-09-27T14:27:04.806067+00:00"
 site_url: https://www.samaritans.org/
-tags:
-- charity
-- events
+sector:
+  - non-profit
+site_type:
+  - events
 ---
 
 As part of our growing relationship with Samaritans we overhauled their main public site to launch their new brand and drive more income. We improved user journeys, included more compelling calls to action and increased average donation amounts. The launch of the new site on Wagtail resulted in:

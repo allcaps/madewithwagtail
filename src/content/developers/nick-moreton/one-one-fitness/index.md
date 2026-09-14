@@ -4,9 +4,8 @@ first_published_at: "2017-11-22T11:31:14.530507+13:00"
 latest_revision_created_at: "2017-11-22T11:31:14.469233+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.oneononefitness.co.uk/
-tags:
-  - gym
-  - fitness
+sector:
+  - sport
 ---
 
 A website to showcase a privately run Gym in Evesham, Worcestershire. UK

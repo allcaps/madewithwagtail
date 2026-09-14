@@ -3,11 +3,9 @@ title: Monumenti Storici del Friuli
 first_published_at: "2021-08-17T10:37:51.410590+00:00"
 latest_revision_created_at: "2021-08-17T10:37:51.410590+00:00"
 site_url: https://guidartefvg.it/
-tags:
-- history
-- culture
-- tourism
-- italy
+sector:
+  - culture
+  - travel
 ---
 
 “Monumenti Storici del Friuli" is a website that collects the contents for tourists visiting the area of the 75 booklets that make up the series of the same name. They present detailed information on monuments, churches and palaces located in the territory of

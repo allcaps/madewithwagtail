@@ -3,7 +3,7 @@ title: Cinema Under The Stairs
 first_published_at: "2021-11-10T10:41:37.011581+00:00"
 latest_revision_created_at: "2021-11-10T10:41:37.011581+00:00"
 site_url: https://cinemaunderthestairs.com/
-tags:
+site_type:
   - events
 ---
 

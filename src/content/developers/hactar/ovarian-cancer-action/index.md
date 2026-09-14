@@ -3,11 +3,10 @@ title: Ovarian Cancer Action
 first_published_at: "2019-09-23T11:27:27.416786+12:00"
 latest_revision_created_at: "2019-09-24T10:38:06.245434+12:00"
 site_url: https://ovarian.org.uk
-tags:
+sector:
   - research
-  - charity
-  - cancer
   - non-profit
+  - healthcare
 ---
 
 Ovarian Cancer Action had a website that had served them well for three years, but an antiquated CMS and disconnected styleguide meant they were firefighting content and an ever growing IA, when they would have preferred to be focussing on driving engagement and working on powerful content.

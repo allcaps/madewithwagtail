@@ -4,18 +4,11 @@ first_published_at: "2017-07-27T17:39:12.137561+12:00"
 latest_revision_created_at: "2024-09-17T03:02:09.440835+12:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://pocopeople.com.au/
-tags:
-  - photography
-  - industry
-  - firm
-  - gallery
-  - portfolio
-  - agency
-  - developer
-  - culture
-  - business
+sector:
   - arts
-  - maker
+  - culture
+site_type:
+  - portfolio
 ---
 
 Poco People are a Hobart based graphic design firm specialising in print based design. They have won many awards for their print design and wanted a website that doubled as an online portfolio for prospective clients.

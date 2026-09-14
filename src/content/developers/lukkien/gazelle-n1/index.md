@@ -3,10 +3,10 @@ title: Gazelle Nº1
 first_published_at: "2017-02-23T04:37:45.647819+13:00"
 latest_revision_created_at: "2017-07-21T12:21:50.397732+12:00"
 site_url: https://www.gazelleno1.com
-tags:
-  - video
-  - animation
-  - 3d
+sector:
+  - arts
+capability:
+  - 3D
 ---
 
 Lukkien and Royal Dutch Gazelle are true partners in innovation. Following the introduction of Gazelle’s e-bike of the future, the concept Nº1, Lukkien built and launched a matching website.

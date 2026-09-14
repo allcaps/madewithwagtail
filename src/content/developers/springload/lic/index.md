@@ -3,11 +3,9 @@ title: LIC
 first_published_at: "2018-02-27T09:45:29.745703+13:00"
 latest_revision_created_at: "2018-02-27T09:45:29.672997+13:00"
 site_url: https://www.lic.co.nz/
-tags:
+sector:
   - research
-  - business
-  - rural
-  - farming
+  - agriculture
   - technology
   - science
 ---

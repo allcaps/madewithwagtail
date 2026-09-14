@@ -3,11 +3,11 @@ title: Freefolk
 first_published_at: "2019-09-23T11:26:03.668885+12:00"
 latest_revision_created_at: "2019-09-23T11:26:03.629175+12:00"
 site_url: https://freefolk.com
-tags:
+sector:
+  - arts
+site_type:
   - portfolio
-  - catalog
-  - film
-  - video
+  - e-commerce
 ---
 
 Freefolk is a new brand formed from the merger between Finish - a London-based, globally renowned post production house - and Realise Studios, a New York CG business. Freefolk needed a beautiful and intuitive website to support the launch of their new brand. The new site needed to provide an impactful destination for press, as well as remarkable resource for future and existing clients.

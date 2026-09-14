@@ -4,12 +4,10 @@ first_published_at: "2022-01-08T13:41:02.285924+13:00"
 latest_revision_created_at: "2022-01-11T22:43:01.641175+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://stationspatiale.com/
-tags:
-  - freelance
-  - platform
-  - algorithm
+sector:
+  - technology
+site_type:
   - blog
-  - matching
 ---
 
 **Creation of networking platform between freelancers and companies**

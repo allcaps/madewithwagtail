@@ -3,10 +3,9 @@ title: KI ENTDECKEN
 first_published_at: "2021-12-04T12:18:12.480783+13:00"
 latest_revision_created_at: "2021-12-04T12:18:12.405408+13:00"
 site_url: https://www.ki-entdecken.de/
-tags:
-  - learning
-  - ai
-  - machine learning
+sector:
+  - education
+  - technology
 ---
 
 With this website we want to show how technologies of artificial intelligence, or more precisely machine learning, can already be used today.All scenarios listed here use pre-trained models that can be used as solutions by end users and can be integrated into web presences, desktop or mobile applications for companies, universities or schools with little programming effort, without having to have large computing units or technical infrastructures themselves.

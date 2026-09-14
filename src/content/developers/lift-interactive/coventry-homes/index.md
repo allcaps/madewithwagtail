@@ -4,9 +4,10 @@ first_published_at: "2017-11-22T09:53:18.589601+13:00"
 latest_revision_created_at: "2017-11-22T09:55:07.692077+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.coventry-homes.com/
-tags:
+sector:
+  - industry
+site_type:
   - portfolio
-  - real estate
 ---
 
 As we worked closely with Coventry, we uncovered the importance of users being able to quickly find a showhome or quick possession built in the home design they'd been eyeing... or vice versa.

@@ -3,9 +3,8 @@ title: Statclass / Статкласс
 first_published_at: "2017-03-14T04:53:11.134353+13:00"
 latest_revision_created_at: "2017-03-14T04:53:11.092146+13:00"
 site_url: https://statclass.ru
-tags:
-  - data science
-  - statistics
+sector:
+  - technology
   - education
 ---
 

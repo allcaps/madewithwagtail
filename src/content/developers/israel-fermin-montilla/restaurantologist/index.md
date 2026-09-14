@@ -4,10 +4,10 @@ first_published_at: "2021-12-12T04:54:43.283477+13:00"
 latest_revision_created_at: "2021-12-12T04:54:43.215666+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://therestaurantologist.com
-tags:
-  - blog
-  - restaurant
+sector:
   - food
+site_type:
+  - blog
 ---
 
 We are a group of foodies, chefs and normal people who want to make Dubai's restaurant scene better. We aim to be Dubai's Michelin guide

@@ -3,7 +3,6 @@ title: StratHub Hessen
 first_published_at: "2021-10-12T09:40:59.012315+00:00"
 latest_revision_created_at: "2021-10-12T09:40:59.012315+00:00"
 site_url: https://www.starthub-hessen.de/de/
-tags: []
 ---
 
 The platform www.starthub-hessen.de was built to bring the Hessian start-up community together via a central contact point. The platform provides information on support- and financing-programs for start-ups, events and news from the Hessian ecosystem.

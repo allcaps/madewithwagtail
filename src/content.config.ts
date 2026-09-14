@@ -60,10 +60,16 @@ const sites = defineCollection({
     // src/content/developers/<company>/<site>/<site>.fill-1200x996.webp,
     // derived from the entry ID in code — no frontmatter needed.
     in_cooperation_with_slug: z.string().nullable().default(null),
-    tags: z.array(z.string()).default([]),
-    // Front-end technologies detected in the submission pipeline
-    // (Wappalyzer scan), e.g. ['React', 'Tailwind CSS']. Legacy entries
-    // predate the field; the site page omits it when empty.
+    // Faceted classification, migrated from the legacy free-form tags field.
+    // Sector: what the site's organisation does (education, healthcare, ...).
+    sector: z.array(z.string()).default([]),
+    // Site type: what the site is for its users (blog, news, e-commerce, ...).
+    site_type: z.array(z.string()).default([]),
+    // Capability: what the build achieved (multilingual, maps, headless, ...).
+    capability: z.array(z.string()).default([]),
+    // Front-end technologies, from the submission pipeline's Wappalyzer scan
+    // (e.g. ['React', 'Tailwind CSS']) or migrated from legacy tech tags.
+    // The site page omits it when empty.
     technologies: z.array(z.string()).default([]),
   }),
 });

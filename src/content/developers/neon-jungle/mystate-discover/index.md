@@ -4,18 +4,13 @@ first_published_at: "2017-07-27T17:47:02.016208+12:00"
 latest_revision_created_at: "2018-01-16T16:56:00.342742+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://discover.mystate.com.au/
-tags:
+sector:
   - finance
-  - industry
   - education
-  - developer
-  - it
-  - accounting
-  - commerce
-  - e-learning
-  - business
-  - app
   - technology
+site_type:
+  - e-commerce
+  - product
 ---
 
 Takeflight collaborated with MyState Bank to develop a microsite called ‘Discover’. The microsite is used as a tool for MyState customers to discover more about their financial goals, and how to achieve them.

@@ -4,9 +4,9 @@ first_published_at: "2018-05-28T15:53:12.087922+12:00"
 latest_revision_created_at: "2018-05-28T15:53:12.048561+12:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.hydrock.com/
-tags:
+sector:
   - engineering
-  - consultancy
+  - professional services
 ---
 
 Hydrock is a multi-disciplinary engineering design consultancy. They wanted a new site with an inspiring and industry-leading design, and required an easy-to-use and streamlined backend editing experience.

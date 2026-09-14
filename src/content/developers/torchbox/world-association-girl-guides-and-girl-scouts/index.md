@@ -3,7 +3,7 @@ title: World Association of Girl Guides and Girl Scouts
 first_published_at: "2018-02-07T18:34:40.309024+13:00"
 latest_revision_created_at: "2018-02-07T18:34:40.256966+13:00"
 site_url: https://www.wagggs.org/en/
-tags:
+sector:
   - non-profit
 ---
 

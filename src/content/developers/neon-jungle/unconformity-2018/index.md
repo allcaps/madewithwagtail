@@ -3,9 +3,9 @@ title: The Unconformity
 first_published_at: "2018-09-06T13:42:30.406207+12:00"
 latest_revision_created_at: "2021-12-14T13:22:39.901789+13:00"
 site_url: https://www.theunconformity.com.au
-tags:
-  - festival
-  - art
+sector:
+  - arts
+site_type:
   - events
 ---
 

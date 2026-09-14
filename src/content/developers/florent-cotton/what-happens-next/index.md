@@ -3,10 +3,11 @@ title: What Happens Next
 first_published_at: "2016-08-31T11:55:19.637846+12:00"
 latest_revision_created_at: "2016-08-31T12:30:59.246842+12:00"
 site_url: https://nrkn.fr/
-tags:
+sector:
+  - arts
+site_type:
   - portfolio
   - blog
-  - photography
 ---
 
 A simple good ol' personal website.

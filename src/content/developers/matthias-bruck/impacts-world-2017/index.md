@@ -3,10 +3,11 @@ title: Impacts World 2017
 first_published_at: "2017-11-21T18:57:09.044753+13:00"
 latest_revision_created_at: "2017-11-21T18:57:08.997338+13:00"
 site_url: https://www.impactsworld2017.org/
-tags:
-  - conference
-  - climate change
+sector:
+  - climate
   - science
+site_type:
+  - events
 ---
 
 The Impacts World 2017 is an international conference on climate change impacts organized by PIK and the ISIMIP team for scientists and stakeholders. The conference tries to quantify the true costs of climate change in four key challenges: Economic costs of climate change, Human health, Human migration and Sustainable development goals.

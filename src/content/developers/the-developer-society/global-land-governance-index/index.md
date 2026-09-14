@@ -3,7 +3,7 @@ title: Global Land Governance Index
 first_published_at: "2026-03-26T11:13:30.204225+00:00"
 latest_revision_created_at: "2026-03-26T11:13:30.204225+00:00"
 site_url: https://www.landexglobal.org/en/
-tags:
+sector:
   - non-profit
 ---
 

@@ -4,9 +4,9 @@ first_published_at: "2018-01-16T11:18:12.426184+13:00"
 latest_revision_created_at: "2018-01-16T11:18:12.383346+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.surehire.ca/
-tags:
+sector:
   - healthcare
-  - occupational testing
+  - professional services
 ---
 
 SureHire provides health testing, fitness to work, and other health services to individuals and employers across Canada. We've worked with SureHire for years, and as their business has grown, the requirements for their website have changed.

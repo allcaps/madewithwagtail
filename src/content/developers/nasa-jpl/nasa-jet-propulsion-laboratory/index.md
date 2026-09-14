@@ -4,12 +4,13 @@ first_published_at: "2021-12-19T00:00:34.496187+13:00"
 latest_revision_created_at: "2021-12-20T10:04:13.206472+13:00"
 site_url: https://www.jpl.nasa.gov/
 in_cooperation_with_slug: torchbox
-tags:
-  - headless
-  - space
-  - vue
-  - graphql
+sector:
   - science
+capability:
+  - headless
+technologies:
+  - Vue
+  - GraphQL
 ---
 
 NASA Jet Propulsion Laboratory’s cutting-edge new digital home for the lab’s missions, science news, images and videos. The headless JPL site is powered by Wagtail and Vue using Nuxt.js. The project was delivered by a fully remote multi-agency/client project team with JPL designers and engineers collaborating with Torchbox and Moore Boeck.

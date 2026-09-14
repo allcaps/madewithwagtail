@@ -4,10 +4,10 @@ first_published_at: "2018-05-01T17:10:09.610994+12:00"
 latest_revision_created_at: "2018-05-01T17:10:09.565150+12:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.247print.net
-tags:
-  - festival
-  - music
-  - print
+sector:
+  - arts
+site_type:
+  - events
 ---
 
 A design and print company based in Cheshire, specialising in live music and music festivals collateral.

@@ -4,9 +4,8 @@ first_published_at: "2022-03-01T09:44:52.864931+13:00"
 latest_revision_created_at: "2022-03-01T09:44:52.801271+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://insanq.co.id/
-tags:
-  - psychology
-  - counseling
+sector:
+  - healthcare
 ---
 
 Insan-Q Psychological Services, Biro Psikologi - Click with You; mitra utama dalam layanan psikologis, pengorganisasian acara, dan konsultasi manajemen untuk pasar domestik & global

@@ -3,9 +3,10 @@ title: TT International
 first_published_at: "2017-07-18T15:20:44.386531+12:00"
 latest_revision_created_at: "2018-01-16T16:58:05.567556+13:00"
 site_url: https://www.ttint.com/
-tags:
+sector:
   - finance
-  - heroku
+technologies:
+  - Heroku
 ---
 
 TT International knew their digital brand was underperforming and their rivals were attracting more new clients online. Navigation was unintuitive and maintenance time was high. Site performance, mobile responsiveness and accessibility all needed improvement. This all contributed to a situation that was critical to overcome as it directly impacted revenue.

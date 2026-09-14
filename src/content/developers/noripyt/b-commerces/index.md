@@ -3,9 +3,10 @@ title: B Commerces
 first_published_at: "2017-11-06T09:44:46.649799+13:00"
 latest_revision_created_at: "2018-02-26T11:20:42.558469+13:00"
 site_url: https://b-commerces.fr
-tags:
-  - real estate
-  - commerce
+sector:
+  - industry
+site_type:
+  - e-commerce
 ---
 
 B Commerces is an agency specialized in business real estate sale.

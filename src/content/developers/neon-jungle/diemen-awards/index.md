@@ -3,11 +3,8 @@ title: The Diemen Awards
 first_published_at: "2021-10-26T16:49:33.323035+13:00"
 latest_revision_created_at: "2023-09-19T17:31:04.274469+12:00"
 site_url: https://diemenawards.com.au/
-tags:
-  - creativity
-  - creative industries
-  - animation
-  - awards
+sector:
+  - arts
 ---
 
 The Diemen Awards celebrates Tasmania's best and brightest talent in commercial creativity.

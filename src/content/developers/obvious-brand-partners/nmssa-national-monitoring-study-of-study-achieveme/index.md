@@ -3,9 +3,8 @@ title: NMSSA - National Monitoring Study of Study Achievement
 first_published_at: "2022-06-28T02:29:34.819672+00:00"
 latest_revision_created_at: "2022-06-28T02:29:34.819672+00:00"
 site_url: https://curriculuminsights.otago.ac.nz/
-tags:
-- education
-- university
+sector:
+  - education
 ---
 
 NMSSA is a large-scale assessment that monitors trends in student achievement through Aotearoa New Zealand. NMSSA is a collaboration between the University of Otago, the New Zealand Council for Educational Research and the Ministry of Education.

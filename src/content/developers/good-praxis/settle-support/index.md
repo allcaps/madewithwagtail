@@ -3,9 +3,9 @@ title: Settle Support
 first_published_at: "2022-09-21T11:50:51.254071+00:00"
 latest_revision_created_at: "2022-09-21T11:50:51.254071+00:00"
 site_url: https://wearesettle.org/
-tags:
-  - charity
+sector:
   - non-profit
+site_type:
   - news
   - blog
 ---

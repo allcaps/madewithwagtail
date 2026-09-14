@@ -3,10 +3,11 @@ title: Grootste Museum van Nederland
 first_published_at: "2018-01-31T13:15:40.350362+13:00"
 latest_revision_created_at: "2018-01-31T13:15:40.299898+13:00"
 site_url: https://www.grootstemuseum.nl
-tags:
-  - art
+sector:
+  - arts
+  - culture
+capability:
   - multilingual
-  - cultural
 ---
 
 Website for Grootste Museum van Nederland, literally the Largest Museum of the Netherlands, but known in English as Dutch Museum Churches.

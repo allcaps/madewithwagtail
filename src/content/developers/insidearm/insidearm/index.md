@@ -4,10 +4,11 @@ first_published_at: "2016-09-28T13:38:18.170097+13:00"
 latest_revision_created_at: "2016-09-28T13:38:18.134676+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.insidearm.com/
-tags:
-  - news
+sector:
   - finance
   - education
+site_type:
+  - news
 ---
 
 [insideARM.com](http://insidearm.com/) is a news and reference website covering the United States debt industry. Wagtail helps us publish news stories, draft email newsletters, and bring our audience other types of professionally-relevant content.

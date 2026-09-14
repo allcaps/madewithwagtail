@@ -3,9 +3,10 @@ title: Africa Portal
 first_published_at: "2018-01-16T11:01:16.409890+13:00"
 latest_revision_created_at: "2018-01-16T11:01:16.361082+13:00"
 site_url: https://www.africaportal.org/
-tags:
-  - news
+sector:
   - non-profit
+site_type:
+  - news
 ---
 
 The Africa Portal is a research repository and an expert analysis hub on African affairs.

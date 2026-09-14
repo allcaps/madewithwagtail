@@ -3,10 +3,8 @@ title: Golden Life American Hospital (Mali)
 first_published_at: "2021-12-12T04:37:46.419444+13:00"
 latest_revision_created_at: "2021-12-12T04:37:46.331937+13:00"
 site_url: https://goldenlifehospital.com
-tags:
-  - health
-  - medical
-  - business
+sector:
+  - healthcare
 ---
 
 Golden Life American Hospital is located in Bamako/MALI.

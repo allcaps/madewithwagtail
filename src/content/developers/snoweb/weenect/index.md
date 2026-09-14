@@ -3,11 +3,12 @@ title: Weenect
 first_published_at: "2022-01-08T13:45:01.423744+13:00"
 latest_revision_created_at: "2022-01-11T22:43:18.288830+13:00"
 site_url: https://www.weenect.com/
-tags:
-  - animals
-  - pets
+sector:
+  - non-profit
+site_type:
+  - e-commerce
+capability:
   - multilingual
-  - shop
 ---
 
 **Creation of the Weenect website, CMS and e-commerce.**

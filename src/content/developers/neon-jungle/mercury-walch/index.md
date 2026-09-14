@@ -3,10 +3,8 @@ title: Mercury Walch
 first_published_at: "2024-06-12T17:42:43.421504+12:00"
 latest_revision_created_at: "2024-06-12T17:42:43.295737+12:00"
 site_url: https://mercurywalch.com.au/
-tags:
-  - animation
-  - print
-  - modern
+sector:
+  - arts
 ---
 
 Mercury Walch is at the top of the Tasmanian printing industry, with a reputation for providing timely and quality service for the last 20 years.

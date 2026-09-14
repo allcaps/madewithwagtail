@@ -3,8 +3,7 @@ title: Twilio (documentation)
 first_published_at: "2017-02-23T04:29:51.202040+13:00"
 latest_revision_created_at: "2017-02-23T04:31:04.630394+13:00"
 site_url: https://www.twilio.com/docs/
-tags:
-  - startup
+site_type:
   - documentation
 ---
 

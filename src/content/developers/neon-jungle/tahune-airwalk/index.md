@@ -4,25 +4,18 @@ first_published_at: "2017-07-27T17:43:12.737637+12:00"
 latest_revision_created_at: "2018-02-07T17:48:32.878515+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://tahuneadventures.com.au/
-tags:
-  - industry
+sector:
   - education
-  - engagement
-  - maps
-  - photography
-  - booking
-  - hotels
-  - national park
-  - nature
-  - culture
+  - arts
+  - hospitality
   - travel
-  - tickets
-  - developer
+  - environment
+  - culture
   - sustainability
-  - business
-  - history
-  - tourism
   - entertainment
+capability:
+  - maps
+  - booking
 ---
 
 Tahune Adventures is a popular tourist attraction in Tasmania, Australia. Surrounded by heritage listed forests, Tahune offers wilderness activities and accommodation for visitors of all nationalities.

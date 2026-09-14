@@ -4,9 +4,10 @@ first_published_at: "2017-01-28T04:22:34.194428+13:00"
 latest_revision_created_at: "2017-01-28T04:22:34.152903+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.wealthclub.co.uk/
-tags:
-  - articles
+sector:
   - finance
+site_type:
+  - blog
 ---
 
 A site for UK tax-efficient investment broker Wealth Club. The company provides investment products such as venture capital trusts, EIS (enterprise investment schemes) and Inheritance Tax portfolios.

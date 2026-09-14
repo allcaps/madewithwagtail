@@ -3,10 +3,8 @@ title: Lipscombe
 first_published_at: "2021-10-05T18:36:21.780251+13:00"
 latest_revision_created_at: "2021-10-05T18:36:21.698492+13:00"
 site_url: https://lipscombechildcare.asn.au/
-tags:
+sector:
   - non-profit
-  - images
-  - business
 ---
 
 Lipscombe Childcare are a community based, not-for-profit organisation that has been providing quality early years services since 1944. Described as "a place where nature and nurture interact, enabling your child to flourish through play, discovery and learning", we designed the Lipscombe website to reflect their values of playfulness, inclusivity, adventure and professionalism.

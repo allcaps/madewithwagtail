@@ -3,7 +3,6 @@ title: Kruidentuin Doesburg
 first_published_at: "2020-10-11T10:39:22.577304+00:00"
 latest_revision_created_at: "2020-10-11T10:39:22.577304+00:00"
 site_url: https://www.kruidentuindoesburg.nl/
-tags: []
 ---
 
 “Kruidentuin Doesburg” is a herb garden located in Doesburg, The Netherlands. It is created in 1993 by volunteers.

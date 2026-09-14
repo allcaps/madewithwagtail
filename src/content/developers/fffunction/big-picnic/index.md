@@ -3,11 +3,12 @@ title: Big Picnic
 first_published_at: "2019-09-23T11:08:37.464486+12:00"
 latest_revision_created_at: "2024-09-17T02:58:05.790263+12:00"
 site_url: https://www.bigpicnic.net
-tags:
+sector:
   - sustainability
   - research
-  - events
   - food
+site_type:
+  - events
 ---
 
 The BigPicnic project brings together the public, scientists, policy-makers and industry to help tackle the global challenge of food security. Their aims are to engender public engagement with the issues of food security, to generate debate leading to practical solutions.

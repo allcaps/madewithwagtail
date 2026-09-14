@@ -3,9 +3,8 @@ title: Bounce Back Newham
 first_published_at: "2021-12-08T20:20:02.092454+13:00"
 latest_revision_created_at: "2021-12-08T20:20:01.830936+13:00"
 site_url: https://bouncebacknewham.co.uk
-tags:
-  - personal development
-  - youth services
+sector:
+  - non-profit
 ---
 
 A site for Bounce Back, a resilience programme for young people living in the London borough of Newham. They provide help and support for young people to help them overcome the challenges, difficulties and setbacks in their lives.

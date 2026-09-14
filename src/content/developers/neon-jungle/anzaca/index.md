@@ -3,28 +3,18 @@ title: ANZACA
 first_published_at: "2019-10-28T13:48:03.094171+13:00"
 latest_revision_created_at: "2019-10-28T13:48:02.937601+13:00"
 site_url: https://anzaca.org
-tags:
+sector:
   - education
-  - engagement
-  - events
-  - people
   - non-profit
-  - news
-  - payments
-  - media
-  - bookings
-  - booking
-  - medicine
-  - community
-  - digital transformation
-  - open source
-  - medical
-  - developer
-  - accessibility
-  - subscription
-  - conference
-  - science
+  - finance
+  - healthcare
   - technology
+  - science
+site_type:
+  - events
+  - news
+capability:
+  - booking
 ---
 
 ANZACA is the Australian and New Zealand Association of Clinical Anatomists.

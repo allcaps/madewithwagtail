@@ -3,9 +3,10 @@ title: Buckinghamshire County Council
 first_published_at: "2022-01-06T05:34:05.704013+13:00"
 latest_revision_created_at: "2022-01-06T06:17:24.991852+13:00"
 site_url: https://www.buckinghamshire.gov.uk
-tags:
-  - news
+sector:
   - non-profit
+site_type:
+  - news
 ---
 
 As part of a major digital transformation programme, Torchbox worked in a consortium with [Unboxed](https://unboxed.co/) and [Scroll](https://www.scroll.co.uk/) to design, build and launch a Wagtail-powered digital platform for Buckinghamshire Council - the new unitary authority formed from five former councils.

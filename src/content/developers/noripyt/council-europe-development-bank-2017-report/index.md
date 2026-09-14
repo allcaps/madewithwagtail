@@ -4,9 +4,9 @@ first_published_at: "2018-04-10T06:45:58.061870+12:00"
 latest_revision_created_at: "2018-04-17T10:53:35.622567+12:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://report-2017.coebank.org/en/
-tags:
-  - bank
-  - public sector
+sector:
+  - finance
+  - government
 ---
 
 This website was done in April 2018.

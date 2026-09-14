@@ -4,9 +4,6 @@ first_published_at: "2021-05-03T16:08:37.822626+00:00"
 latest_revision_created_at: "2021-05-03T16:08:37.822626+00:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://canardetcie.com/
-tags:
-- communication
-- agency
 ---
 
 hez Canard et Cie, nous croyons qu'une relation forte entre une entreprise et son public, se nourrit d'une communication authentique, grâce de multiples contenus.

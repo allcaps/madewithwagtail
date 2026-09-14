@@ -4,9 +4,9 @@ first_published_at: "2017-11-27T14:10:19.429772+13:00"
 latest_revision_created_at: "2017-11-27T14:10:19.388411+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://projectmia.up.pt
-tags:
-  - urban metabolism
-  - environmental impact assessment
+sector:
+  - government
+  - environment
 ---
 
 “Metabolic Impact Assessment: from concept to practice” brings together two separate research fields, Urban Metabolism (UM) and Strategic Environmental Assessment (SEA). The main objective is to further work on the concept of Metabolic Impact Assessment (MIA) to make it operational and readily applicable as a new, innovative and far-reaching planning policy instrument, able to improve the metabolic efficiency of our cities.

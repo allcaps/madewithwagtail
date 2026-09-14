@@ -3,12 +3,10 @@ title: Prime Property Management
 first_published_at: "2025-02-04T03:55:09.093173+13:00"
 latest_revision_created_at: "2025-05-19T21:39:35.873059+12:00"
 site_url: https://primepm.co.uk/
-tags:
+sector:
   - industry
-  - london
-  - business
-  - api
-  - property
+capability:
+  - headless
 ---
 
 Prime Property Management were storming the property management market in London and the South East, but to keep monument for future growth they wanted to leverage the brand and showcase what makes the Prime Property Management offering different.

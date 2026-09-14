@@ -3,13 +3,13 @@ title: Apex Contractors
 first_published_at: "2025-07-24T04:19:51.369782+12:00"
 latest_revision_created_at: "2025-07-24T04:19:51.216164+12:00"
 site_url: https://apexcontractors.co.uk/
-tags:
-  - business
-  - serverless
-  - construction
-  - data
+sector:
+  - industry
+  - technology
+capability:
   - headless
-  - api
+technologies:
+  - Serverless
 ---
 
 Apex Contractors, deliver outstanding public and private sector construction projects. We partnered with Apex to create a new website that aligned with their updated branding and migrated their website from Joomla to Wagtail.

@@ -3,10 +3,10 @@ title: Viktor & Rolf
 first_published_at: "2018-01-31T13:20:27.842676+13:00"
 latest_revision_created_at: "2018-01-31T13:20:27.796550+13:00"
 site_url: https://www.viktor-rolf.com/
-tags:
-  - fashion
-  - art
-  - cultural
+sector:
+  - consumer
+  - arts
+  - culture
 ---
 
 Magazine style website for haute couture fashion artists Viktor & Rolf.

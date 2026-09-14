@@ -3,13 +3,11 @@ title: Góði Hirðirinn
 first_published_at: "2024-08-07T02:47:25.363955+12:00"
 latest_revision_created_at: "2024-08-07T02:47:25.165628+12:00"
 site_url: https://godihirdirinn.is/
-tags:
-  - online store
-  - second-hand
-  - mobile-first design
-  - recycle
-  - products
-  - user-friendly
+sector:
+  - retail
+  - environment
+site_type:
+  - e-commerce
 ---
 
 Góði Hirðirinn is a nonprofit secondhand market owned by Sorpa, a waste management and recycling center.

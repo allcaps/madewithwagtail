@@ -4,20 +4,15 @@ first_published_at: "2017-11-22T11:23:27.809844+13:00"
 latest_revision_created_at: "2018-01-16T16:56:08.149364+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://tascann.com/
-tags:
-  - industry
-  - knowledge
-  - company
+sector:
   - research
   - education
-  - blog
-  - consultancy
-  - medical
+  - professional services
   - healthcare
-  - people
-  - developer
-  - articles
   - science
+site_type:
+  - documentation
+  - blog
 ---
 
 Based in Hobart on the pristine island of Tasmania, Tas Cann is a pioneer in the emerging cannabis sector.

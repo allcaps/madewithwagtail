@@ -3,8 +3,7 @@ title: Oxfam GB
 first_published_at: "2022-01-05T22:40:52.750901+13:00"
 latest_revision_created_at: "2022-01-06T05:24:57.846012+13:00"
 site_url: https://www.oxfam.org.uk
-tags:
-  - charity
+sector:
   - non-profit
 ---
 

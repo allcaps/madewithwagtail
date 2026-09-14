@@ -3,15 +3,9 @@ title: People's Archive of Rural India
 first_published_at: "2017-11-21T19:06:51.707071+13:00"
 latest_revision_created_at: "2017-11-21T19:08:20.170343+13:00"
 site_url: https://ruralindiaonline.org/
-tags:
-  - journalism
-  - school
-  - diversity
-  - people
-  - india
-  - poverty
-  - rural
-  - farming
+sector:
+  - education
+  - non-profit
   - agriculture
 ---
 

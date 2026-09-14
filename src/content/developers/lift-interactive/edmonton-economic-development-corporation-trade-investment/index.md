@@ -4,9 +4,6 @@ first_published_at: "2017-11-22T10:06:17.778519+13:00"
 latest_revision_created_at: "2017-11-22T10:08:21.075860+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.investedmontonregion.com/
-tags:
-  - business
-  - edmonton
 ---
 
 A division of Edmonton Economic Development Corporation, EEDC’s Trade & Investment team supports companies in the Edmonton Metro Region who are taking a risk in new markets by making the leap from local to global. They also work to attract new business from around the world to invest in Edmonton, assisting with a smooth transition into our regional market.

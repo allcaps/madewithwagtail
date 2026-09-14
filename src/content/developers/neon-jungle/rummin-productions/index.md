@@ -3,9 +3,8 @@ title: Rummin Productions
 first_published_at: "2016-10-03T07:49:45.455178+13:00"
 latest_revision_created_at: "2018-10-24T12:07:00.170515+13:00"
 site_url: https://rummin.com/
-tags:
-  - photography
-  - video
+sector:
+  - arts
 ---
 
 Rummin are a Tasmanian based film and digital media production company specialising in cinematic documentary, narrative video and digital media projects.

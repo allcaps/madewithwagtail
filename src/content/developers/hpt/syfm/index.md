@@ -3,8 +3,6 @@ title: SYFM
 first_published_at: "2022-01-21T01:07:15.846451+13:00"
 latest_revision_created_at: "2022-01-21T01:07:15.787633+13:00"
 site_url: https://www.syfm.co.uk/
-tags:
-  - industry
 ---
 
 Stephen Yardley Furniture Makers approached us to complete a full design and rebuild of their website.

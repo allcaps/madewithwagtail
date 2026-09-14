@@ -3,11 +3,10 @@ title: Fabrique
 first_published_at: "2018-01-31T13:03:04.534337+13:00"
 latest_revision_created_at: "2018-01-31T13:31:05.253117+13:00"
 site_url: https://fabrique.com
-tags:
+site_type:
   - portfolio
-  - agency
+capability:
   - multilingual
-  - studio
 ---
 
 Fabrique is a strategic design agency in the Netherlands.

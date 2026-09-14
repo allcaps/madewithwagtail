@@ -3,8 +3,7 @@ title: Klim
 first_published_at: "2016-09-28T13:39:53.623512+13:00"
 latest_revision_created_at: "2018-02-27T09:08:58.710789+13:00"
 site_url: https://klim.co.nz/
-tags:
-  - typography
+site_type:
   - blog
   - e-commerce
 ---

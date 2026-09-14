@@ -4,7 +4,6 @@ first_published_at: "2019-09-23T10:04:06.564031+12:00"
 latest_revision_created_at: "2019-09-23T10:04:06.529100+12:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.speelpunt.be
-tags: []
 ---
 
 Go with Lemmie on adventure in Speelpunt!

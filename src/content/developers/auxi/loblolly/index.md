@@ -4,10 +4,9 @@ first_published_at: "2017-11-22T11:00:16.952030+13:00"
 latest_revision_created_at: "2017-11-22T11:00:16.910113+13:00"
 archived_at: "2026-09-11T14:17:39.532625+00:00"
 site_url: https://www.loblolly.io
-tags:
-  - subscription
-  - manufacturing
-  - cad
+sector:
+  - industry
+  - engineering
 ---
 
 Loblolly is the leading CAD subscription service providing unlimited 2D CAD drawing and low feature 3D modeling with specifications requested by clients for less than it costs to hire or contract.

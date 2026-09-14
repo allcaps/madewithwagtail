@@ -3,13 +3,11 @@ title: Lingovo - Übersetzungsbüro (Translation Agency)
 first_published_at: "2019-09-23T11:43:32.264621+12:00"
 latest_revision_created_at: "2019-09-23T11:43:32.219205+12:00"
 site_url: https://www.lingovo.com
-tags:
-  - working
-  - agency
+site_type:
+  - e-commerce
+capability:
   - multilingual
   - multisite
-  - e-commerce
-  - business
 ---
 
 Lingovo is a Wagtail and Django-powered agency for professional translations by native speakers - uncomplicated and fast.

@@ -3,8 +3,7 @@ title: Championship Month
 first_published_at: "2017-01-28T04:11:14.662822+13:00"
 latest_revision_created_at: "2017-01-28T04:11:14.624801+13:00"
 site_url: https://www.meistaramanudur.is/
-tags:
-  - snippets
+site_type:
   - events
 ---
 
