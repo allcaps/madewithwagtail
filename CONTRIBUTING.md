@@ -36,43 +36,7 @@ Content changes are picked up automatically by the dev server. Data is regenerat
 
 ## Site submissions
 
-Sites can be submitted through the [site submission form](https://github.com/wagtail/madewithwagtail/issues/new?template=site-submission.yml).
-A GitHub Actions workflow (`.github/workflows/submission.yml`) then:
-
-1. **Validates** the submission — checks the URL, generates slugs, and rejects duplicates.
-2. **Renders** the site in a sandboxed, credential-free job — detects Wagtail fingerprints,
-   scans the page's technologies with Wappalyzer, and takes a screenshot.
-   Submissions detected as running incompatible technologies (PHP, ASP.NET, Java,
-   Wix, Webflow, Squarespace — i.e. not Wagtail sites) are closed with an explanatory
-   comment; complementary technologies (React, Vue, Next.js, Astro, Tailwind, …)
-   are recorded on the site page and listed in the PR.
-3. **Publishes** a pull request with the new content for maintainer review.
-
-Nothing is published automatically: a maintainer reviews and merges the pull request,
-which closes the original issue. The pipeline's logic lives in
-`scripts/submissions/process_submission.py` (Python, run with `uv`), with tests under
-`tests/submissions/` (`just test-submissions`).
-
-### Optional fields and location data
-
-All fields in the submission form are optional except the submission type, site URL,
-title, description, developer name, and the two confirmations. Skipped optional fields
-(developer URL, developer location, latitude/longitude, GitHub username, logo URL,
-other notes, tags) are recorded
-by GitHub as `_No response_` and treated by the pipeline as "not provided".
-
-- **New developer profiles**: skipped location fields are written to the profile's
-  frontmatter as empty values (`location: null`, `lat: null`, `lon: null`) — see the
-  schema in `src/content.config.ts`. The profile page simply omits the map and location
-  line until a maintainer fills them in by editing
-  `src/content/developers/<developer>/index.md`.
-- **Developer logo (new profiles)**: taken from the Logo URL field if provided,
-  otherwise discovered from the developer's own site (the Developer URL) — the
-  submitted site's favicon is never used. If neither is available, the profile
-  is committed without a logo and a maintainer adds one manually.
-- **Already-listed developers**: a submission only adds the new site page — the existing
-  profile (including its location) is never modified. If the site's page needs a new
-  location or corrected profile details, edit the profile in the same pull request.
+See how we manage site submissions in our docs: [Sites management](./docs/sites-management.md).
 
 ## Quality assurance
 
