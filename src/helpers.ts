@@ -16,3 +16,24 @@ export function facetSlug(value: string): string {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 }
+
+// Plain-text excerpt of a Markdown body, for page meta descriptions: strips
+// markup, collapses whitespace, and truncates on a word boundary. Returns
+// undefined for empty bodies so callers can fall back to the site default.
+export function markdownExcerpt(markdown: string | undefined, maxChars = 160): string | undefined {
+  if (!markdown) return undefined;
+  const text = markdown
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`([^`]*)`/g, '$1')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]*)\]\(([^)]*)\)/g, '$1')
+    .replace(/^[ \t]*(?:[#>]+|[-*+]|\d+[.)])[ \t]*/gm, '')
+    .replace(/[*_~]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (!text) return undefined;
+  if (text.length <= maxChars) return text;
+  const cutoff = text.slice(0, maxChars);
+  const lastSpace = cutoff.lastIndexOf(' ');
+  return `${(lastSpace > 0 ? cutoff.slice(0, lastSpace) : cutoff).trimEnd()}…`;
+}

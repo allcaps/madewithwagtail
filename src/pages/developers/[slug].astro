@@ -1,10 +1,10 @@
 ---
-import { getCollection, getEntry, render } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Icon from '../../components/Icon.astro';
 import SiteCard from '../../components/SiteCard.astro';
-import { withBase } from '../../helpers.ts';
+import { markdownExcerpt, withBase } from '../../helpers.ts';
 import { lookupImage } from '../../images.ts';
 import { formatLastUpdated, latestDate } from '../../lastmod.mjs';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -50,7 +50,7 @@ function getCooperator(cooperatorSlug: string) {
 }
 ---
 
-<BaseLayout title={developer.data.title} description={developer.data.location ?? undefined}>
+<BaseLayout title={developer.data.title} description={markdownExcerpt(developer.body)}>
   <div class="site-content content-width">
     <Breadcrumbs ancestors={[{ title: 'Developers', url: withBase('/developers/') }]} />
 

@@ -2,16 +2,34 @@
 import { withBase } from '../helpers.ts';
 import '../styles/screen.scss';
 
+interface OgImage {
+  src: string;
+  width?: number;
+  height?: number;
+  alt?: string;
+  type?: string;
+}
+
 export interface Props {
   title?: string;
   description?: string;
-  ogImage?: string;
+  ogImage?: OgImage;
 }
 
 const { title, description, ogImage } = Astro.props;
 const pageTitle = title ? `${title} | Made with Wagtail` : 'Made with Wagtail';
 const pageDescription =
   description ?? 'A showcase of sites made with Wagtail, the popular Django CMS.';
+
+// Social crawlers only follow absolute image and page URLs. Falls back to the
+// site URL without a protocol in development, where Astro.site is unset.
+const toAbsoluteUrl = (path: string): string => {
+  const url = new URL(withBase(path), Astro.site ?? 'https://madewithwagtail.org');
+  return url.href;
+};
+
+const ogImageUrl = ogImage ? toAbsoluteUrl(ogImage.src) : undefined;
+const canonicalUrl = toAbsoluteUrl(Astro.url.pathname);
 
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 
@@ -36,14 +54,28 @@ function navIsActive(path: string): boolean {
     <meta name="description" content={pageDescription}>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content={pageTitle}>
-    <meta name="twitter:description" content={pageDescription}>
+    <link rel="canonical" href={canonicalUrl}>
 
+    <meta property="og:site_name" content="Made with Wagtail">
     <meta property="og:title" content={pageTitle}>
     <meta property="og:description" content={pageDescription}>
     <meta property="og:type" content="website">
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta property="og:url" content={canonicalUrl}>
+    {ogImageUrl && (
+      <>
+        <meta property="og:image" content={ogImageUrl}>
+        {ogImage?.width && <meta property="og:image:width" content={String(ogImage.width)}>}
+        {ogImage?.height && <meta property="og:image:height" content={String(ogImage.height)}>}
+        {ogImage?.type && <meta property="og:image:type" content={ogImage.type}>}
+        {ogImage?.alt && <meta property="og:image:alt" content={ogImage.alt}>}
+      </>
+    )}
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content={pageTitle}>
+    <meta name="twitter:description" content={pageDescription}>
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl}>}
+    {ogImage?.alt && <meta name="twitter:image:alt" content={ogImage.alt}>}
 
     <link rel="icon" type="image/x-icon" href={withBase('/favicon.ico')}>
     <link

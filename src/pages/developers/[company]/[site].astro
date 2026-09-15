@@ -1,9 +1,9 @@
 ---
-import { getCollection, getEntry, render } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import Icon from '../../../components/Icon.astro';
-import { facetSlug, withBase } from '../../../helpers.ts';
+import { facetSlug, markdownExcerpt, withBase } from '../../../helpers.ts';
 import { lookupImage } from '../../../images.ts';
 import { formatLastUpdated } from '../../../lastmod.mjs';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
@@ -37,9 +37,24 @@ const coopDev = siteEntry.data.in_cooperation_with_slug
   : null;
 
 const lastUpdated = formatLastUpdated(siteEntry.data.latest_revision_created_at);
+
+// Social preview uses the site's screenshot, when there is one.
+const ogImage = screenshot
+  ? {
+      src: screenshot.src,
+      width: screenshot.width,
+      height: screenshot.height,
+      type: `image/${screenshot.format}`,
+      alt: `Screenshot of the ${siteEntry.data.title} website`,
+    }
+  : undefined;
 ---
 
-<BaseLayout title={siteEntry.data.title}>
+<BaseLayout
+  title={siteEntry.data.title}
+  description={markdownExcerpt(siteEntry.body)}
+  ogImage={ogImage}
+>
   <div class="site-content content-width">
     <Breadcrumbs
       ancestors={[
