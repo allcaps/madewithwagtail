@@ -74,11 +74,12 @@ class TestClassifyTechnologies:
         technologies = {
             "PHP": {"version": "8.2", "categories": ["Programming languages"]},
             "React": {"version": "18", "categories": ["JavaScript frameworks"]},
+            "Htmx": {"version": "2.0", "categories": ["JavaScript libraries"]},
             "jQuery": {"version": "3.7", "categories": ["JavaScript libraries"]},
         }
         classified = ps.classify_technologies(technologies)
         assert classified["incompatible"] == ["PHP"]
-        assert classified["complementary"] == ["React"]
+        assert classified["complementary"] == ["Htmx", "React"]
         assert classified["other"] == ["jQuery"]
 
     def test_non_reportable_categories_dropped(self):

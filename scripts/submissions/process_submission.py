@@ -545,6 +545,7 @@ COMPLEMENTARY_TECHNOLOGIES = frozenset(
         "Astro",
         "Svelte",
         "Alpine.js",
+        "Htmx",
         "Bootstrap",
         "Tailwind CSS",
     }
