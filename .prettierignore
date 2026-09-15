@@ -5,10 +5,18 @@ node_modules
 public/
 coverage/
 **/vendor/
+.mypy_cache
+/coverage_html_report
+legacy/
 _build
 # File types which Prettier supports but we don’t want auto-formatting.
 *.md
 # Files which contain incompatible syntax.
 *.html
-.mypy_cache
-/coverage_html_report
+# Formatted with Biome
+*.json
+*.jsonc
+*.ts
+*.js
+*.yml
+*.yaml
