@@ -19,10 +19,16 @@ class TestPrBody:
         # The body opens with the close-reference + workflow link; no
         # heading duplicating the PR title. The run link lives inline —
         # the old bottom footer is gone.
-        body = ps.build_pr_body(make_proposal(), DETECTION, "wagtail/madewithwagtail-static", "submission/issue-42", "https://run")
+        body = ps.build_pr_body(
+            make_proposal(),
+            DETECTION,
+            "wagtail/madewithwagtail",
+            "submission/issue-42",
+            "https://run",
+        )
         assert body.splitlines()[0] == (
             "Closes #42. Auto-generated PR via the [site submission workflow]"
-            "(https://github.com/wagtail/madewithwagtail-static/blob/main/CONTRIBUTING.md#site-submissions)"
+            "(https://github.com/wagtail/madewithwagtail/blob/main/CONTRIBUTING.md#site-submissions)"
             " ([view logs](https://run))."
         )
         assert "## New site submission" not in body
@@ -33,18 +39,25 @@ class TestPrBody:
     def test_metadata_table_shape(self):
         body = ps.build_pr_body(
             make_proposal(
-                submission_type="existing-developer", developer_exists=True,
-                developer_slug="torchbox", developer_name="Torchbox",
-                developer_url="https://torchbox.com/", tags=["tourism", "Education"],
+                submission_type="existing-developer",
+                developer_exists=True,
+                developer_slug="torchbox",
+                developer_name="Torchbox",
+                developer_url="https://torchbox.com/",
+                tags=["tourism", "Education"],
             ),
-            DETECTION, "wagtail/madewithwagtail-static", "submission/issue-42", "https://run",
+            DETECTION,
+            "wagtail/madewithwagtail",
+            "submission/issue-42",
+            "https://run",
         )
         assert "| Field | Value |" in body
         assert "| Site | <https://example.com> |" in body
         # Developer name links to the developer's website; profile link after.
         assert (
             "| Developer | [Torchbox](https://torchbox.com/)"
-            " - [see profile page](https://madewithwagtail.org/developers/torchbox/) |" in body
+            " - [see profile page](https://madewithwagtail.org/developers/torchbox/) |"
+            in body
         )
         assert (
             "| Tags | [tourism](https://madewithwagtail.org/sites/tag/tourism/),"
@@ -54,11 +67,17 @@ class TestPrBody:
     def test_developer_website_link_fallbacks(self):
         # No developer_url + existing profile: the name links to the profile
         # page so the row still works.
-        existing = make_proposal(submission_type="existing-developer", developer_exists=True, developer_slug="torchbox", developer_name="Torchbox")
+        existing = make_proposal(
+            submission_type="existing-developer",
+            developer_exists=True,
+            developer_slug="torchbox",
+            developer_name="Torchbox",
+        )
         body = ps.build_pr_body(existing, DETECTION, "r/r", "b", "https://run")
         assert (
             "[Torchbox](https://madewithwagtail.org/developers/torchbox/)"
-            " - [see profile page](https://madewithwagtail.org/developers/torchbox/)" in body
+            " - [see profile page](https://madewithwagtail.org/developers/torchbox/)"
+            in body
         )
         # New developer without a developer_url: plain name, no dead links.
         new = make_proposal()  # new-developer, no developer_url
@@ -71,7 +90,9 @@ class TestPrBody:
         assert "### Submitter notes" in body
         assert "Launched in 2024, redesign of an older site." in body
         # Notes sit before the detected-technologies section and checklist.
-        assert body.index("### Submitter notes") < body.index("### Detected technologies")
+        assert body.index("### Submitter notes") < body.index(
+            "### Detected technologies"
+        )
         assert body.index("### Submitter notes") < body.index("### Reviewer checklist")
 
     def test_submitter_notes_omitted_when_none(self):
@@ -80,9 +101,15 @@ class TestPrBody:
 
     def test_screenshot_is_table_thumbnail(self):
         p = make_proposal()
-        body = ps.build_pr_body(p, DETECTION, "wagtail/madewithwagtail-static", "submission/issue-42", "https://run")
+        body = ps.build_pr_body(
+            p,
+            DETECTION,
+            "wagtail/madewithwagtail",
+            "submission/issue-42",
+            "https://run",
+        )
         assert (
-            '<img src="https://raw.githubusercontent.com/wagtail/madewithwagtail-static/submission/issue-42/'
+            '<img src="https://raw.githubusercontent.com/wagtail/madewithwagtail/submission/issue-42/'
             'src/content/developers/example-co/example-site/example-site.fill-1200x996.webp" width="300" height="249"'
             ' alt="Screenshot of the new site">' in body
         )
@@ -98,38 +125,57 @@ class TestPrBody:
         assert "| Detection | ⚠️ No Wagtail signals detected |" in body
 
     def test_multiple_signals_joined(self):
-        detection = {**DETECTION, "signals": ["generator meta tag", "Wagtail rendition URL in image sources"]}
+        detection = {
+            **DETECTION,
+            "signals": ["generator meta tag", "Wagtail rendition URL in image sources"],
+        }
         body = ps.build_pr_body(make_proposal(), detection, "r/r", "b", "https://run")
-        assert "| Detection | ✅ generator meta tag; Wagtail rendition URL in image sources |" in body
+        assert (
+            "| Detection | ✅ generator meta tag; Wagtail rendition URL in image sources |"
+            in body
+        )
 
     def test_local_preview_in_table(self):
         body = ps.build_pr_body(make_proposal(), DETECTION, "r/r", "b", "https://run")
         assert "| Local preview | `/developers/example-co/example-site` |" in body
         assert "### How to review" not in body
+
     def test_site_page_raw_url_at_head_sha(self):
         sha = "a" * 40
         body = ps.build_pr_body(
-            make_proposal(), DETECTION, "wagtail/madewithwagtail-static", "submission/issue-42", "https://run",
-            head_sha=sha, entry_line_count=13,
+            make_proposal(),
+            DETECTION,
+            "wagtail/madewithwagtail",
+            "submission/issue-42",
+            "https://run",
+            head_sha=sha,
+            entry_line_count=13,
         )
         assert "### Site page" in body
         # The URL is emitted raw — not wrapped in a markdown link — so the
         # visible text is the URL itself.
         assert (
-            f"### Site page\n\nhttps://github.com/wagtail/madewithwagtail-static/blob/{sha}/"
-            "src/content/developers/example-co/example-site/index.md?plain=1#L1-L13\n" in body
+            f"### Site page\n\nhttps://github.com/wagtail/madewithwagtail/blob/{sha}/"
+            "src/content/developers/example-co/example-site/index.md?plain=1#L1-L13\n"
+            in body
         )
         assert f"[Site page]({sha}" not in body
 
     def test_developer_profile_page_section_new_developer(self):
         sha = "b" * 40
         body = ps.build_pr_body(
-            make_proposal(), DETECTION, "wagtail/madewithwagtail-static", "submission/issue-42", "https://run",
-            head_sha=sha, entry_line_count=13, profile_line_count=9,
+            make_proposal(),
+            DETECTION,
+            "wagtail/madewithwagtail",
+            "submission/issue-42",
+            "https://run",
+            head_sha=sha,
+            entry_line_count=13,
+            profile_line_count=9,
         )
         assert "### Developer profile page" in body
         assert (
-            f"### Developer profile page\n\nhttps://github.com/wagtail/madewithwagtail-static/blob/{sha}/"
+            f"### Developer profile page\n\nhttps://github.com/wagtail/madewithwagtail/blob/{sha}/"
             "src/content/developers/example-co/index.md?plain=1#L1-L9" in body
         )
 
@@ -137,19 +183,26 @@ class TestPrBody:
         sha = "c" * 40
         body = ps.build_pr_body(
             make_proposal(
-                submission_type="existing-developer", developer_exists=True,
-                developer_slug="torchbox", developer_name="Torchbox",
+                submission_type="existing-developer",
+                developer_exists=True,
+                developer_slug="torchbox",
+                developer_name="Torchbox",
             ),
-            DETECTION, "wagtail/madewithwagtail-static", "submission/issue-42", "https://run",
-            head_sha=sha, entry_line_count=13,
+            DETECTION,
+            "wagtail/madewithwagtail",
+            "submission/issue-42",
+            "https://run",
+            head_sha=sha,
+            entry_line_count=13,
         )
         assert "### Site page" in body
         assert "### Developer profile page" not in body
 
     def test_site_page_dry_run_without_sha(self):
-        body = ps.build_pr_body(make_proposal(), DETECTION, "r/r", "submission/issue-42", "https://run")
+        body = ps.build_pr_body(
+            make_proposal(), DETECTION, "r/r", "submission/issue-42", "https://run"
+        )
         assert "SHA unavailable" in body
-
 
     def test_reviewer_checklist_no_footer(self):
         body = ps.build_pr_body(make_proposal(), DETECTION, "r/r", "b", "https://run")
@@ -158,11 +211,14 @@ class TestPrBody:
         # must not come back.
         assert "<sub>View the" not in body
 
-
     def test_logo_row_gated_on_logo_committed(self):
         p = make_proposal()  # new-developer: output_paths includes the logo
-        with_logo = ps.build_pr_body(p, DETECTION, "r/r", "b", "https://run", logo_committed=True)
-        without_logo = ps.build_pr_body(p, DETECTION, "r/r", "b", "https://run", logo_committed=False)
+        with_logo = ps.build_pr_body(
+            p, DETECTION, "r/r", "b", "https://run", logo_committed=True
+        )
+        without_logo = ps.build_pr_body(
+            p, DETECTION, "r/r", "b", "https://run", logo_committed=False
+        )
         assert "| Logo | <img" in with_logo
         assert "| Logo |" not in without_logo
 
@@ -189,7 +245,9 @@ class TestPrBody:
         # reject-technologies job closes those submissions first.
         assert "PHP" not in body
         # The section sits before the reviewer checklist.
-        assert body.index("### Detected technologies") < body.index("### Reviewer checklist")
+        assert body.index("### Detected technologies") < body.index(
+            "### Reviewer checklist"
+        )
 
     def test_detected_technologies_section_empty(self):
         body = ps.build_pr_body(make_proposal(), DETECTION, "r/r", "b", "https://run")
@@ -203,13 +261,17 @@ class TestPrBody:
 
 class TestComments:
     def test_pr_comment_links(self):
-        text = ps.build_pr_comment(make_proposal(), "https://github.com/r/r/pull/1", "https://run")
+        text = ps.build_pr_comment(
+            make_proposal(), "https://github.com/r/r/pull/1", "https://run"
+        )
         assert "https://github.com/r/r/pull/1" in text
         assert "https://run" in text
         assert "auto-closes" in text
 
     def test_rejection_comment_lists_reasons(self):
-        text = ps.build_rejection_comment(["Fill in the site title.", "Tick the confirmation."], "https://run")
+        text = ps.build_rejection_comment(
+            ["Fill in the site title.", "Tick the confirmation."], "https://run"
+        )
         assert "Fill in the site title." in text
         assert "Tick the confirmation." in text
         assert "https://run" in text

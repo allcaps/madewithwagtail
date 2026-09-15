@@ -7,8 +7,8 @@ Thank you for your interest in this project! Made with Wagtail is a showcase of 
 First, clone the repo:
 
 ```sh
-git clone git+https://github.com/wagtail/madewithwagtail-static
-cd madewithwagtail-static
+git clone git+https://github.com/wagtail/madewithwagtail
+cd madewithwagtail
 ```
 
 > Requirements: [`node`](https://nodejs.org) (see [.node-version](./.node-version)), `npm`, [`just`](https://github.com/casey/just), and [`prek`](https://prek.j178.dev/).
@@ -20,7 +20,7 @@ just install
 just serve
 ```
 
-The site is served at `http://localhost:4321/madewithwagtail-static/`.
+The site is served at `http://localhost:4321/madewithwagtail/`.
 
 ## How the site works
 
@@ -36,7 +36,7 @@ Content changes are picked up automatically by the dev server. Data is regenerat
 
 ## Site submissions
 
-Sites can be submitted through the [site submission form](https://github.com/wagtail/madewithwagtail-static/issues/new?template=site-submission.yml).
+Sites can be submitted through the [site submission form](https://github.com/wagtail/madewithwagtail/issues/new?template=site-submission.yml).
 A GitHub Actions workflow (`.github/workflows/submission.yml`) then:
 
 1. **Validates** the submission — checks the URL, generates slugs, and rejects duplicates.

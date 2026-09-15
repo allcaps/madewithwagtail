@@ -150,7 +150,9 @@ class Proposal(BaseModel):
     developer_location: str | None = Field(default=None, max_length=100)
     lat: str | None = Field(default=None)
     lon: str | None = Field(default=None)
-    github_user: str | None = Field(default=None, pattern=r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$")
+    github_user: str | None = Field(
+        default=None, pattern=r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$"
+    )
     logo_url: str | None = Field(default=None, max_length=2000)
     other_notes: str | None = Field(default=None, max_length=2000)
     submitted_at: datetime
@@ -203,7 +205,9 @@ FORM_ORDER = {heading: index for index, heading in enumerate(FORM_HEADINGS)}
 NO_RESPONSE_PLACEHOLDER = "_No response_"
 
 
-def parse_issue_form_body(body: str) -> dict[str, str | list[str] | list[tuple[str, bool]]]:
+def parse_issue_form_body(
+    body: str,
+) -> dict[str, str | list[str] | list[tuple[str, bool]]]:
     """Parse a GitHub issue form body into {heading: content}.
 
     GitHub renders form issues as `### <label>` sections. Multiselect
@@ -220,7 +224,8 @@ def parse_issue_form_body(body: str) -> dict[str, str | list[str] | list[tuple[s
             return []
         if heading == "Confirmations":
             return [
-                (label.strip(), mark.casefold() == "x") for mark, label in CHECKBOX_RE.findall(content)
+                (label.strip(), mark.casefold() == "x")
+                for mark, label in CHECKBOX_RE.findall(content)
             ]
         if heading in ("Sector", "Site type", "Capabilities"):
             return [value.strip() for value in content.split(",") if value.strip()]
@@ -244,10 +249,14 @@ def parse_issue_form_body(body: str) -> dict[str, str | list[str] | list[tuple[s
 
     # Confirmations is the form's final section, so the last match is the
     # real one even when earlier free text contains a forged heading.
-    confirmations = [match for match in matches if match.group("heading") == "Confirmations"]
+    confirmations = [
+        match for match in matches if match.group("heading") == "Confirmations"
+    ]
     if confirmations:
         match = confirmations[-1]
-        result["Confirmations"] = parse_section("Confirmations", body[match.end() :].strip())
+        result["Confirmations"] = parse_section(
+            "Confirmations", body[match.end() :].strip()
+        )
     return result
 
 
@@ -310,7 +319,9 @@ def check_public_url(raw: str, resolver=socket.getaddrinfo) -> str:
         raise bad("URL has no hostname")
 
     host_lower = hostname.rstrip(".").lower()
-    if any(host_lower == s or host_lower.endswith("." + s) for s in HOST_BLOCKLIST_SUFFIXES):
+    if any(
+        host_lower == s or host_lower.endswith("." + s) for s in HOST_BLOCKLIST_SUFFIXES
+    ):
         raise bad(f"Host {host_lower} is on the submission blocklist")
 
     # IP literals: validate directly. Hostnames: resolve.
@@ -318,7 +329,9 @@ def check_public_url(raw: str, resolver=socket.getaddrinfo) -> str:
         ips = [ipaddress.ip_address(host_lower)]
     except ValueError:
         try:
-            infos = resolver(host_lower, parts.port or (443 if parts.scheme == "https" else 80))
+            infos = resolver(
+                host_lower, parts.port or (443 if parts.scheme == "https" else 80)
+            )
         except Exception as exc:
             raise bad(f"Hostname {host_lower} does not resolve") from exc
         try:
@@ -406,7 +419,9 @@ def cover_crop(img: Image.Image, target: tuple[int, int]) -> Image.Image:
     """Resize to cover `target`, then center-crop to exactly `target`."""
     tw, th = target
     scale = max(tw / img.width, th / img.height)
-    resized = img.resize((round(img.width * scale), round(img.height * scale)), Image.LANCZOS)
+    resized = img.resize(
+        (round(img.width * scale), round(img.height * scale)), Image.LANCZOS
+    )
     left = (resized.width - tw) // 2
     top = (resized.height - th) // 2
     return resized.crop((left, top, left + tw, top + th))
@@ -431,7 +446,9 @@ def encode_screenshot(
     return out
 
 
-def encode_logo(data: bytes, *, max_size: int = 120, max_bytes: int = LOGO_MAX_BYTES) -> bytes:
+def encode_logo(
+    data: bytes, *, max_size: int = 120, max_bytes: int = LOGO_MAX_BYTES
+) -> bytes:
     img = Image.open(io.BytesIO(data))
     img.thumbnail((max_size, max_size), Image.LANCZOS)
     buf = io.BytesIO()
@@ -627,7 +644,11 @@ def _response_too_large(response) -> bool:
     """Best-effort size gate: honor content-length when present."""
     headers = getattr(response, "headers", None) or {}
     content_length = headers.get("content-length")
-    return bool(content_length and content_length.isdigit() and int(content_length) > MAX_RESPONSE_BYTES)
+    return bool(
+        content_length
+        and content_length.isdigit()
+        and int(content_length) > MAX_RESPONSE_BYTES
+    )
 
 
 def _capped_text(response) -> str:
@@ -671,6 +692,7 @@ def detection_result(
         "checked_at": utcnow().isoformat(),
     }
 
+
 MAX_REDIRECTS = 5
 MAX_RESPONSE_BYTES = 3_000_000
 REDIRECT_STATUSES = frozenset({301, 302, 303, 307, 308})
@@ -687,7 +709,9 @@ def fetch_page(client: "httpx.Client", url: str) -> tuple[str, str]:
     current = check_public_url(url)
     for _ in range(MAX_REDIRECTS):
         response = client.get(
-            current, timeout=15, headers={"user-agent": "madewithwagtail-submission-bot"}
+            current,
+            timeout=15,
+            headers={"user-agent": "madewithwagtail-submission-bot"},
         )
         if response.status_code in REDIRECT_STATUSES:
             location = response.headers.get("location", "")
@@ -706,12 +730,14 @@ def fetch_page(client: "httpx.Client", url: str) -> tuple[str, str]:
 
 
 ICON_REL_RE = re.compile(
-    r"<link[^>]+rel=[\"'][^\"']*(?:apple-touch-icon|icon)[^\"']*[\"'][^>]*>", re.IGNORECASE
+    r"<link[^>]+rel=[\"'][^\"']*(?:apple-touch-icon|icon)[^\"']*[\"'][^>]*>",
+    re.IGNORECASE,
 )
 ICON_HREF_RE = re.compile(r"href=[\"']([^\"']+)[\"']", re.IGNORECASE)
 MANIFEST_HREF_RE = re.compile(
     r"<link[^>]+rel=[\"'][^\"']*manifest[^\"']*[\"'][^>]*>", re.IGNORECASE
 )
+
 
 def gather_logo_candidates(
     client: "httpx.Client",
@@ -809,9 +835,7 @@ def gather_logo_candidates(
     return candidates
 
 
-def select_largest_logo(
-    client: "httpx.Client", candidates: list[str]
-) -> bytes | None:
+def select_largest_logo(client: "httpx.Client", candidates: list[str]) -> bytes | None:
     """Download logo candidates and return the largest decodable image.
 
     Pages declare icons in arbitrary order (a 16px <link rel="icon">
@@ -856,7 +880,6 @@ def is_private_browser_host(url: str) -> bool:
         return not _is_browsable_ip(ipaddress.ip_address(host))
     except ValueError:
         return host.casefold() == "localhost"
-
 
 
 # ---------------------------------------------------------------------------
@@ -1137,6 +1160,7 @@ DISMISS_OVERLAYS_JS = """\
 })();
 """
 
+
 def _js_regex(pattern: re.Pattern) -> str:
     """JS regex literal for a Python pattern. JS has no (?ix) inline flags
     and no VERBOSE mode: strip the flag prefix, drop newlines, and collapse
@@ -1146,20 +1170,19 @@ def _js_regex(pattern: re.Pattern) -> str:
     source = pattern.pattern
     prefix = "(?ix)" if source.startswith("(?ix)") else "(?i)"
     assert source.startswith(prefix), source  # keep flag support honest
-    stripped = re.sub(r"\s+", " ", source[len(prefix):]).replace("  ", " ")
+    stripped = re.sub(r"\s+", " ", source[len(prefix) :]).replace("  ", " ")
     # Whitespace that VERBOSE ignored is gone; a single space between
     # alternatives is still ignored by the JS engine only outside classes —
     # but JS does NOT ignore it, so remove it entirely. Literals needing
     # spaces use \s or ' ' explicitly in the source (none do).
     return "/" + stripped.replace(" ", "") + "/i"
+
+
 DISMISS_OVERLAYS_JS = (
-    DISMISS_OVERLAYS_JS
-    .replace("%BANNER_PROBE_SELECTOR%", BANNER_PROBE_SELECTOR)
+    DISMISS_OVERLAYS_JS.replace("%BANNER_PROBE_SELECTOR%", BANNER_PROBE_SELECTOR)
     .replace("%DISMISS_CLICK_SELECTORS%", DISMISS_CLICK_SELECTORS)
     .replace("%DISMISS_BUTTON_TEXT_RE%", _js_regex(DISMISS_BUTTON_TEXT_RE))
-    .replace(
-        "%DISMISS_BUTTON_TEXT_BLOCK_RE%", _js_regex(DISMISS_BUTTON_TEXT_BLOCK_RE)
-    )
+    .replace("%DISMISS_BUTTON_TEXT_BLOCK_RE%", _js_regex(DISMISS_BUTTON_TEXT_BLOCK_RE))
 )
 BANNER_HIDE_CSS = """\
 /* Major CMP SDK containers (grounded in AdGuard's Cookie Notices filter) */
@@ -1211,7 +1234,8 @@ aside[class*="cookie" i], footer[class*="cookie" i], header[class*="cookie" i],
 div[id*="cookie" i], section[id*="cookie" i], aside[id*="cookie" i],
 footer[id*="cookie" i], header[id*="cookie" i]
 """
-CONSENT_INIT_JS = """\
+CONSENT_INIT_JS = (
+    """\
 (() => {
   const CSS = `%s { display: none !important; }`;
   const ID = "__mww_banner_hide";
@@ -1227,7 +1251,9 @@ CONSENT_INIT_JS = """\
     style.textContent = CSS;
     root.appendChild(style);
   };
-})();""" % BANNER_HIDE_CSS
+})();"""
+    % BANNER_HIDE_CSS
+)
 
 
 def wait_for_page_settled(page, timeout_s: float = 15.0) -> None:
@@ -1375,7 +1401,9 @@ def cmd_render(argv: list[str]) -> int:
     # --url smoke mode (local browser testing) skips the proposal entirely.
     proposal: Proposal | None = None
     if args.proposal:
-        proposal = Proposal.model_validate_json(args.proposal.read_text(encoding="utf-8"))
+        proposal = Proposal.model_validate_json(
+            args.proposal.read_text(encoding="utf-8")
+        )
     elif not args.url:
         print("render: either --proposal or --url is required", file=sys.stderr)
         return ERROR_EXIT
@@ -1507,7 +1535,9 @@ def build_proposal(
     # Facets (already list-valued from the parser), validated against the
     # controlled vocabularies so typos can never reach the content files.
     def facet_values(heading: str, allowed: frozenset[str], label: str) -> list[str]:
-        values = [v for v in (fields.get(heading) or []) if isinstance(v, str) and v.strip()]
+        values = [
+            v for v in (fields.get(heading) or []) if isinstance(v, str) and v.strip()
+        ]
         for value in values:
             if value not in allowed:
                 reasons.append(f"{value!r} is not a valid {label} option.")
@@ -1525,7 +1555,11 @@ def build_proposal(
             devs = existing_developers(content_dir)
             result = match_developer(developer_name, devs)
             if isinstance(result, list):
-                hint = f" Existing developers with similar names: {', '.join(result)}." if result else ""
+                hint = (
+                    f" Existing developers with similar names: {', '.join(result)}."
+                    if result
+                    else ""
+                )
                 reasons.append(
                     f"No developer named {developer_name!r} is listed yet.{hint} "
                     "Pick the exact name, or submit as a new developer profile."
@@ -1550,7 +1584,9 @@ def build_proposal(
 
     if site_url:
         origin = urlsplit(site_url)
-        origin_key = f"{origin.scheme}://{origin.hostname.lower()}" if origin.hostname else ""
+        origin_key = (
+            f"{origin.scheme}://{origin.hostname.lower()}" if origin.hostname else ""
+        )
         if origin_key and origin_key in existing_site_origins(content_dir):
             reasons.append(f"{origin_key} is already in the showcase.")
 
@@ -1560,7 +1596,9 @@ def build_proposal(
         try:
             developer_url = check_public_url(field("Developer URL"), resolver=resolver)
         except Exception as exc:
-            reasons.append(f"The developer URL was rejected: {_validation_message(exc)}")
+            reasons.append(
+                f"The developer URL was rejected: {_validation_message(exc)}"
+            )
 
     logo_url = ""
     if field("Logo URL"):
@@ -1576,7 +1614,9 @@ def build_proposal(
         reasons.append("Latitude must be a decimal degrees value between -90 and 90.")
         lat = None
     if lon and not LON_RE.fullmatch(lon):
-        reasons.append("Longitude must be a decimal degrees value between -180 and 180.")
+        reasons.append(
+            "Longitude must be a decimal degrees value between -180 and 180."
+        )
         lon = None
 
     github_user = field("GitHub username") or None
@@ -1613,7 +1653,9 @@ def build_proposal(
         # Model-level caps (title > 80, description > 800, ...) are reachable
         # through the real form — they must surface as a structured rejection,
         # not an exit-1 traceback that silently drops the submission.
-        raise Rejection(*(_proposal_error_reason(error) for error in exc.errors())) from exc
+        raise Rejection(
+            *(_proposal_error_reason(error) for error in exc.errors())
+        ) from exc
 
 
 # Model-level constraints on user-editable fields, mapped to rejection copy.
@@ -1647,7 +1689,9 @@ def cmd_validate(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(prog="validate")
     parser.add_argument("--issue-body", required=True, type=Path)
     parser.add_argument("--issue-number", type=int, required=True)
-    parser.add_argument("--content-dir", type=Path, default=Path("src/content/developers"))
+    parser.add_argument(
+        "--content-dir", type=Path, default=Path("src/content/developers")
+    )
     args = parser.parse_args(argv)
     body = args.issue_body.read_text(encoding="utf-8")
     try:
@@ -1671,6 +1715,7 @@ def _frontmatter_block(data: dict) -> str:
 
 def _iso(dt: datetime) -> str:
     return dt.isoformat()
+
 
 def site_markdown(p: Proposal, technologies: dict[str, list[str]] | None = None) -> str:
     complementary = (technologies or {}).get("complementary", [])
@@ -1711,13 +1756,17 @@ def developer_markdown(p: Proposal) -> str:
 
 def output_paths(p: Proposal) -> dict[str, Path]:
     paths = {
-        "site_md": Path(f"src/content/developers/{p.developer_slug}/{p.site_slug}/index.md"),
+        "site_md": Path(
+            f"src/content/developers/{p.developer_slug}/{p.site_slug}/index.md"
+        ),
         "screenshot": Path(
             f"src/content/developers/{p.developer_slug}/{p.site_slug}/{p.site_slug}.fill-1200x996.webp"
         ),
     }
     if not p.developer_exists:
-        paths["developer_md"] = Path(f"src/content/developers/{p.developer_slug}/index.md")
+        paths["developer_md"] = Path(
+            f"src/content/developers/{p.developer_slug}/index.md"
+        )
         paths["logo"] = Path(
             f"src/content/developers/{p.developer_slug}/{p.developer_slug}.max-120x120.webp"
         )
@@ -1749,7 +1798,9 @@ def _profile_line(p: Proposal) -> str:
     else:
         name = p.developer_name
     if p.developer_exists:
-        suffix = f" - [see profile page]({LIVE_SITE_URL}/developers/{p.developer_slug}/)"
+        suffix = (
+            f" - [see profile page]({LIVE_SITE_URL}/developers/{p.developer_slug}/)"
+        )
     else:
         suffix = " - new 🎉"
     return name + suffix
@@ -1760,16 +1811,14 @@ def _facet_links(values: list[str], facet: str) -> str:
     if not values:
         return "_(none)_"
     return ", ".join(
-        f"[{value}]({LIVE_SITE_URL}/sites/{facet}/{slugify(value)}/)" for value in values
+        f"[{value}]({LIVE_SITE_URL}/sites/{facet}/{slugify(value)}/)"
+        for value in values
     )
 
 
 def _run_footer(run_url: str) -> str:
     """Small-print footer shared by the PR body and issue comments."""
-    return (
-        f"<sub>View the [site submission workflow logs]({run_url}).</sub>"
-    )
-
+    return f"<sub>View the [site submission workflow logs]({run_url}).</sub>"
 
 
 def _detection_value(detection: dict) -> str:
@@ -1796,7 +1845,9 @@ def _committed_file_url(
     if head_sha is None:
         return "(SHA unavailable in dry-run)"
     last = line_count if line_count is not None else 1
-    return f"https://github.com/{repo_full_name}/blob/{head_sha}/{path}?plain=1#L1-L{last}"
+    return (
+        f"https://github.com/{repo_full_name}/blob/{head_sha}/{path}?plain=1#L1-L{last}"
+    )
 
 
 def build_pr_body(
@@ -1822,7 +1873,7 @@ def build_pr_body(
     )
     lines = [
         f"Closes #{p.issue_number}. Auto-generated PR via the [site submission workflow]"
-        "(https://github.com/wagtail/madewithwagtail-static/blob/main/CONTRIBUTING.md#site-submissions)"
+        "(https://github.com/wagtail/madewithwagtail/blob/main/CONTRIBUTING.md#site-submissions)"
         f" ([view logs]({run_url})).",
         "",
         "| Field | Value |",
@@ -1875,7 +1926,8 @@ def build_pr_body(
         "- [ ] Screenshot shows the site (not a cookie banner or login page)",
         "- [ ] Sector, site type, and capabilities are sensible",
         "- [ ] Description reads well",
-        "- [ ] Developer details are correct" + (" (new profile: check the logo)" if not p.developer_exists else ""),
+        "- [ ] Developer details are correct"
+        + (" (new profile: check the logo)" if not p.developer_exists else ""),
     ]
     return "\n".join(lines)
 
@@ -1921,8 +1973,7 @@ def build_pr_comment(p: Proposal, pr_url: str, run_url: str) -> str:
     return (
         f"Opened pull request {pr_url} with this submission. "
         f"The issue auto-closes when the PR is merged.\n\n"
-        f"Workflow run (artifacts): {run_url}\n"
-        + _run_footer(run_url)
+        f"Workflow run (artifacts): {run_url}\n" + _run_footer(run_url)
     )
 
 
@@ -1940,8 +1991,7 @@ def build_failure_comment(stage: str, error: str, run_url: str) -> str:
     return (
         f"The submission pipeline failed at the **{stage}** stage: {error}\n\n"
         f"Check the [workflow run]({run_url}) for details — a maintainer will follow up "
-        f"(labelled {NEEDS_TRIAGE_LABEL}).\n"
-        + _run_footer(run_url)
+        f"(labelled {NEEDS_TRIAGE_LABEL}).\n" + _run_footer(run_url)
     )
 
 
@@ -2043,9 +2093,12 @@ def cmd_publish(argv: list[str]) -> int:
         logo = args.logo.read_bytes() if args.logo and args.logo.exists() else b""
         technologies = {}
         if args.detection and args.detection.exists():
-            technologies = json.loads(args.detection.read_text(encoding="utf-8")).get(
-                "technologies"
-            ) or {}
+            technologies = (
+                json.loads(args.detection.read_text(encoding="utf-8")).get(
+                    "technologies"
+                )
+                or {}
+            )
         if args.dry_run:
             for key, rel in output_paths(proposal).items():
                 print(f"would write {rel}")
@@ -2077,16 +2130,30 @@ def cmd_publish(argv: list[str]) -> int:
         run_url = os.environ.get("GITHUB_RUN_URL", "<GITHUB_RUN_URL>")
         head_sha = os.environ.get("GITHUB_HEAD_SHA")
         body = build_pr_body(
-            proposal, detection, repo, branch, run_url,
-            logo_committed=logo_committed, head_sha=head_sha,
+            proposal,
+            detection,
+            repo,
+            branch,
+            run_url,
+            logo_committed=logo_committed,
+            head_sha=head_sha,
         )
         print(f"would create branch {branch} and open a PR on {repo}")
         print(body)
         return 0
 
     run(["git", "checkout", "-B", branch])
-    run(["git", "add", *(str(path) for path in git_add_paths(proposal, args.repo_root))])
-    run(["git", "commit", "-m", commit_message(proposal, args.co_author, args.co_author_id)])
+    run(
+        ["git", "add", *(str(path) for path in git_add_paths(proposal, args.repo_root))]
+    )
+    run(
+        [
+            "git",
+            "commit",
+            "-m",
+            commit_message(proposal, args.co_author, args.co_author_id),
+        ]
+    )
     # The branch is fully regenerated from validated artifacts each run, so
     # force pushing keeps retries idempotent when the branch (and its PR)
     # already exist from a previous pipeline run. The lease expectation must
@@ -2094,14 +2161,20 @@ def cmd_publish(argv: list[str]) -> int:
     # remote-tracking ref exists for --force-with-lease to verify against.
     listing = subprocess.run(
         ["git", "ls-remote", "origin", f"refs/heads/{branch}"],
-        check=True, capture_output=True, text=True,
+        check=True,
+        capture_output=True,
+        text=True,
     )
     remote_sha = listing.stdout.split()[0] if listing.stdout.strip() else ""
-    run([
-        "git", "push",
-        f"--force-with-lease=refs/heads/{branch}:{remote_sha}",
-        "origin", branch,
-    ])
+    run(
+        [
+            "git",
+            "push",
+            f"--force-with-lease=refs/heads/{branch}:{remote_sha}",
+            "origin",
+            branch,
+        ]
+    )
 
     repo = os.environ["GITHUB_REPOSITORY"]
     run_url = os.environ["GITHUB_RUN_URL"]
@@ -2119,13 +2192,17 @@ def cmd_publish(argv: list[str]) -> int:
         else None
     )
     body = build_pr_body(
-        proposal, detection, repo, branch, run_url,
-        logo_committed=logo_committed, head_sha=head_sha,
+        proposal,
+        detection,
+        repo,
+        branch,
+        run_url,
+        logo_committed=logo_committed,
+        head_sha=head_sha,
         entry_line_count=entry_line_count,
         profile_line_count=profile_line_count,
     )
     body_file.write_text(body, encoding="utf-8")
-
 
     # The PR label may not exist yet in the repository.
     run(["gh", "label", "create", PR_LABEL, "--color", "1d76db", "--force"])
@@ -2133,7 +2210,9 @@ def cmd_publish(argv: list[str]) -> int:
     # the branch; update it in place instead of failing.
     result = subprocess.run(
         ["gh", "pr", "list", "--head", branch, "--state", "open", "--json", "url"],
-        check=True, capture_output=True, text=True,
+        check=True,
+        capture_output=True,
+        text=True,
     )
     existing = json.loads(result.stdout or "[]")
     if existing:
@@ -2142,20 +2221,49 @@ def cmd_publish(argv: list[str]) -> int:
     else:
         # gh pr create prints the PR URL on stdout — capture it for the issue comment.
         result = subprocess.run(
-            ["gh", "pr", "create", "--title", f"New site submission: {proposal.site_title}",
-             "--body-file", str(body_file), "--head", branch, "--label", PR_LABEL],
-            check=True, capture_output=True, text=True,
+            [
+                "gh",
+                "pr",
+                "create",
+                "--title",
+                f"New site submission: {proposal.site_title}",
+                "--body-file",
+                str(body_file),
+                "--head",
+                branch,
+                "--label",
+                PR_LABEL,
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
         )
         pr_url = result.stdout.strip().splitlines()[-1]
     # Retries must not stack duplicate comments on the issue: edit the
     # bot's most recent comment, creating one only if none exists yet.
-    run([
-        "gh", "issue", "comment", str(proposal.issue_number),
-        "--body", build_pr_comment(proposal, pr_url, run_url),
-        "--edit-last", "--create-if-none",
-    ])
+    run(
+        [
+            "gh",
+            "issue",
+            "comment",
+            str(proposal.issue_number),
+            "--body",
+            build_pr_comment(proposal, pr_url, run_url),
+            "--edit-last",
+            "--create-if-none",
+        ]
+    )
     run(["gh", "label", "create", PR_CREATED_LABEL, "--color", "0e8a16", "--force"])
-    run(["gh", "issue", "edit", str(proposal.issue_number), "--add-label", PR_CREATED_LABEL])
+    run(
+        [
+            "gh",
+            "issue",
+            "edit",
+            str(proposal.issue_number),
+            "--add-label",
+            PR_CREATED_LABEL,
+        ]
+    )
     body_file.unlink(missing_ok=True)
     return 0
 

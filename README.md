@@ -1,4 +1,4 @@
-[Made with Wagtail](https://madewithwagtail.org) [![CI](https://github.com/wagtail/madewithwagtail-static/actions/workflows/ci.yml/badge.svg)](https://github.com/wagtail/madewithwagtail-static/actions/workflows/ci.yml) [<img src="https://raw.githubusercontent.com/wagtail/wagtail/main/docs/logo.png" width="83" align="right" alt="Wagtail">](https://wagtail.org/)
+[Made with Wagtail](https://madewithwagtail.org) [![CI](https://github.com/wagtail/madewithwagtail/actions/workflows/ci.yml/badge.svg)](https://github.com/wagtail/madewithwagtail/actions/workflows/ci.yml) [<img src="https://raw.githubusercontent.com/wagtail/wagtail/main/docs/logo.png" width="83" align="right" alt="Wagtail">](https://wagtail.org/)
 =================
 
 > A showcase of sites and apps made with [Wagtail](https://wagtail.org/): an easy to use, open source content management system.
@@ -20,13 +20,13 @@ The content lives in `src/content`, with one Markdown file per site (`src/conten
 Requirements: [`node`](https://nodejs.org) (see [.node-version](.node-version)), `npm`, [`just`](https://github.com/casey/just), and [`prek`](https://prek.j178.dev/).
 
 ```sh
-git clone git+https://github.com/wagtail/madewithwagtail-static
-cd madewithwagtail-static
+git clone git+https://github.com/wagtail/madewithwagtail
+cd madewithwagtail
 
 # Install the dependencies.
 just install
 
-# Start the development server at http://localhost:4321/madewithwagtail-static/.
+# Start the development server at http://localhost:4321/madewithwagtail/.
 just serve
 ```
 
@@ -43,7 +43,7 @@ just help             # List all the justfile recipes.
 
 ## Site submissions
 
-Anyone can submit a site through the [site submission form](https://github.com/wagtail/madewithwagtail-static/issues/new?template=site-submission.yml). A GitHub Actions workflow (`.github/workflows/submission.yml`) then:
+Anyone can submit a site through the [site submission form](https://github.com/wagtail/madewithwagtail/issues/new?template=site-submission.yml). A GitHub Actions workflow (`.github/workflows/submission.yml`) then:
 
 1. **Validates** the submission — checks the URL, generates slugs, and rejects duplicates.
 2. **Renders** the site in a sandboxed, credential-free job — detects Wagtail fingerprints, scans the page's technologies with Wappalyzer, and takes a screenshot. Non-Wagtail sites are closed with an explanatory comment.
