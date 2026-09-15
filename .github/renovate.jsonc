@@ -1,11 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
 
-  "extends": [
-    "config:recommended",
-    ":enablePreCommit",
-    "helpers:pinGitHubActionDigests",
-  ],
+  "extends": ["config:recommended", ":enablePreCommit", "helpers:pinGitHubActionDigests"],
 
   // Run about bi-weekly.
   "schedule": ["* * 3,22 * *"],
@@ -23,7 +19,7 @@
     "enabled": true,
     "automerge": true,
     // We need to override the specific schedule.
-    "schedule": ["* * 3,22 * *"],
+    "schedule": ["* * 3,22 * *"]
   },
 
   "packageRules": [
@@ -31,13 +27,13 @@
     {
       "matchCategories": ["ci"],
       "automerge": true,
-      "groupName": "CI configuration dependencies",
+      "groupName": "CI configuration dependencies"
     },
 
     // Auto-merge npm package updates.
     {
       "matchManagers": ["npm"],
-      "automerge": true,
+      "automerge": true
     },
 
     // The site depends on the current Astro major; major upgrades need manual work.
@@ -45,7 +41,7 @@
       "matchManagers": ["npm"],
       "matchDepNames": ["astro"],
       "matchUpdateTypes": ["major"],
-      "automerge": false,
-    },
-  ],
+      "automerge": false
+    }
+  ]
 }
