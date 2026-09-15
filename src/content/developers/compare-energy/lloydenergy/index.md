@@ -1,9 +1,0 @@
----
-title: Lloydenergy
-first_published_at: "2019-06-19T11:12:42.465307+00:00"
-latest_revision_created_at: "2019-06-19T11:12:42.465307+00:00"
-archived_at: "2026-09-11T14:17:39.532625+00:00"
-site_url: https://www.lloydenergy.co.uk/
----
-
-Compare gas & electricity tariffs across the energy market to get the cheapest deal through Lloyd energy. So you could save some pounds by switching your energy supplier to a cheaper tariff.
