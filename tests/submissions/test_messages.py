@@ -83,7 +83,7 @@ class TestPrBody:
         body = ps.build_pr_body(p, DETECTION, "wagtail/madewithwagtail-static", "submission/issue-42", "https://run")
         assert (
             '<img src="https://raw.githubusercontent.com/wagtail/madewithwagtail-static/submission/issue-42/'
-            'public/images/example-co/example-site.fill-1200x996.webp" width="300" height="249"'
+            'src/content/developers/example-co/example-site/example-site.fill-1200x996.webp" width="300" height="249"'
             ' alt="Screenshot of the new site">' in body
         )
         assert "| Screenshot | <img" in body

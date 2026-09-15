@@ -91,8 +91,10 @@ class TestOutputPaths:
         paths = ps.output_paths(p)
         assert paths["site_md"] == ps.Path("src/content/developers/example-co/example-site/index.md")
         assert paths["developer_md"] == ps.Path("src/content/developers/example-co/index.md")
-        assert paths["screenshot"] == ps.Path("public/images/example-co/example-site.fill-1200x996.webp")
-        assert paths["logo"] == ps.Path("public/images/example-co/example-co.max-120x120.webp")
+        assert paths["screenshot"] == ps.Path(
+            "src/content/developers/example-co/example-site/example-site.fill-1200x996.webp"
+        )
+        assert paths["logo"] == ps.Path("src/content/developers/example-co/example-co.max-120x120.webp")
 
     def test_existing_developer_has_no_developer_paths(self):
         p = make_proposal(submission_type="existing-developer", developer_exists=True, developer_slug="frojd")

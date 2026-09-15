@@ -1712,11 +1712,15 @@ def developer_markdown(p: Proposal) -> str:
 def output_paths(p: Proposal) -> dict[str, Path]:
     paths = {
         "site_md": Path(f"src/content/developers/{p.developer_slug}/{p.site_slug}/index.md"),
-        "screenshot": Path(f"public/images/{p.developer_slug}/{p.site_slug}.fill-1200x996.webp"),
+        "screenshot": Path(
+            f"src/content/developers/{p.developer_slug}/{p.site_slug}/{p.site_slug}.fill-1200x996.webp"
+        ),
     }
     if not p.developer_exists:
         paths["developer_md"] = Path(f"src/content/developers/{p.developer_slug}/index.md")
-        paths["logo"] = Path(f"public/images/{p.developer_slug}/{p.developer_slug}.max-120x120.webp")
+        paths["logo"] = Path(
+            f"src/content/developers/{p.developer_slug}/{p.developer_slug}.max-120x120.webp"
+        )
     return paths
 
 

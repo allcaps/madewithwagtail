@@ -22,18 +22,18 @@ def make_webp(size: tuple[int, int] = (1200, 996)) -> bytes:
 class TestWriteContentFiles:
     def test_writes_site_and_images(self, tmp_path):
         (tmp_path / "src" / "content" / "developers").mkdir(parents=True)
-        (tmp_path / "public" / "images").mkdir(parents=True)
         p = make_proposal()
         written = ps.write_content_files(p, tmp_path, make_webp(), make_webp((200, 100)))
         rel = {str(path.relative_to(tmp_path)) for path in written}
         assert "src/content/developers/example-co/example-site/index.md" in rel
         assert "src/content/developers/example-co/index.md" in rel
-        assert "public/images/example-co/example-site.fill-1200x996.webp" in rel
-        assert "public/images/example-co/example-co.max-120x120.webp" in rel
+        assert (
+            "src/content/developers/example-co/example-site/example-site.fill-1200x996.webp" in rel
+        )
+        assert "src/content/developers/example-co/example-co.max-120x120.webp" in rel
 
     def test_existing_developer_writes_less(self, tmp_path):
         (tmp_path / "src" / "content" / "developers").mkdir(parents=True)
-        (tmp_path / "public" / "images").mkdir(parents=True)
         p = make_proposal(submission_type="existing-developer", developer_exists=True, developer_slug="frojd")
         written = ps.write_content_files(p, tmp_path, make_webp(), None)
         rel = {path.name for path in written}
@@ -60,12 +60,17 @@ class TestGitAddPaths:
         # artifact): the logo path must not reach `git add`.
         p = make_proposal()
         (tmp_path / "src" / "content" / "developers" / "example-co" / "example-site").mkdir(parents=True)
-        (tmp_path / "public" / "images" / "example-co").mkdir(parents=True)
         (tmp_path / "src" / "content" / "developers" / "example-co" / "example-site" / "index.md").touch()
         (tmp_path / "src" / "content" / "developers" / "example-co" / "index.md").touch()
-        (tmp_path / "public" / "images" / "example-co" / "example-site.fill-1200x996.webp").touch()
+        (
+            tmp_path
+            / "src" / "content" / "developers" / "example-co" / "example-site"
+            / "example-site.fill-1200x996.webp"
+        ).touch()
         paths = ps.git_add_paths(p, tmp_path)
-        assert tmp_path / "public/images/example-co/example-co.max-120x120.webp" not in paths
+        assert (
+            tmp_path / "src/content/developers/example-co/example-co.max-120x120.webp" not in paths
+        )
         assert len(paths) == 3
 
     def test_includes_logo_when_written(self, tmp_path):
@@ -116,7 +121,6 @@ class TestCmdPublishPrepare:
         new-developer submission. That must produce a logo-less PR, not a
         crash (which would route the submission to needs-triage)."""
         (tmp_path / "repo" / "src" / "content" / "developers").mkdir(parents=True)
-        (tmp_path / "repo" / "public" / "images").mkdir(parents=True)
         proposal_file = tmp_path / "proposal.json"
         proposal_file.write_text(make_proposal().model_dump_json())
         screenshot_file = tmp_path / "screenshot.webp"
@@ -134,9 +138,13 @@ class TestCmdPublishPrepare:
 
         assert code == 0
         out = capsys.readouterr().out
-        written = {line for line in out.splitlines() if line.startswith("src/") or line.startswith("public/")}
-        assert "public/images/example-co/example-co.max-120x120.webp" not in written
-        assert (tmp_path / "repo" / "public" / "images" / "example-co" / "example-site.fill-1200x996.webp").exists()
+        written = {line for line in out.splitlines() if line.startswith("src/")}
+        assert "src/content/developers/example-co/example-co.max-120x120.webp" not in written
+        assert (
+            tmp_path
+            / "repo" / "src" / "content" / "developers" / "example-co" / "example-site"
+            / "example-site.fill-1200x996.webp"
+        ).exists()
         assert not (
-            tmp_path / "repo" / "public" / "images" / "example-co" / "example-co.max-120x120.webp"
+            tmp_path / "repo" / "src" / "content" / "developers" / "example-co" / "example-co.max-120x120.webp"
         ).exists()
