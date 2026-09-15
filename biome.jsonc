@@ -6,7 +6,16 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/dist", "!**/public", "!**/.astro", "!**/src/assets", "!local", "!tests", "!legacy"]
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/public",
+      "!**/.astro",
+      "!**/src/assets",
+      "!local",
+      "!tests",
+      "!legacy"
+    ]
   },
   "formatter": {
     "enabled": true,
