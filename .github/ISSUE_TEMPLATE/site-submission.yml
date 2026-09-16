@@ -1,15 +1,6 @@
 name: Site submission
 description: Propose a site built with Wagtail for the showcase
 body:
-  - type: dropdown
-    id: submission-type
-    attributes:
-      label: Submission type
-      options:
-        - A new site and new developer profile
-        - A new site on an existing profile
-    validations:
-      required: true
   - type: input
     id: site-url
     attributes:
@@ -105,7 +96,7 @@ body:
     id: developer-name
     attributes:
       label: Developer name
-      description: 'The agency or developer that built the site. For an existing profile, use the name exactly as it appears on the site, skip all other fields. (max 80 characters)'
+      description: 'The agency or developer that built the site (max 80 characters). If it exactly matches an existing profile, the site is added to that profile — otherwise a new profile is created. To add a site to an existing profile, use the name exactly as it appears on the site and skip the other developer fields.'
     validations:
       required: true
   - type: input

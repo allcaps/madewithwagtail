@@ -34,7 +34,7 @@ class TestWriteContentFiles:
 
     def test_existing_developer_writes_less(self, tmp_path):
         (tmp_path / "src" / "content" / "developers").mkdir(parents=True)
-        p = make_proposal(submission_type="existing-developer", developer_exists=True, developer_slug="frojd")
+        p = make_proposal(developer_exists=True, developer_slug="frojd")
         written = ps.write_content_files(p, tmp_path, make_webp(), None)
         rel = {path.name for path in written}
         assert rel == {"index.md", "example-site.fill-1200x996.webp"}
@@ -82,7 +82,7 @@ class TestGitAddPaths:
         assert len(paths) == 4
 
     def test_existing_developer_paths_only(self, tmp_path):
-        p = make_proposal(submission_type="existing-developer", developer_exists=True, developer_slug="frojd")
+        p = make_proposal(developer_exists=True, developer_slug="frojd")
         for rel in ps.output_paths(p).values():
             (tmp_path / rel).parent.mkdir(parents=True, exist_ok=True)
             (tmp_path / rel).touch()

@@ -39,12 +39,13 @@ class TestPrBody:
     def test_metadata_table_shape(self):
         body = ps.build_pr_body(
             make_proposal(
-                submission_type="existing-developer",
                 developer_exists=True,
                 developer_slug="torchbox",
                 developer_name="Torchbox",
                 developer_url="https://torchbox.com/",
-                tags=["tourism", "Education"],
+                sector=["travel"],
+                site_type=["e-commerce"],
+                capability=["multilingual"],
             ),
             DETECTION,
             "wagtail/madewithwagtail",
@@ -60,15 +61,44 @@ class TestPrBody:
             in body
         )
         assert (
-            "| Tags | [tourism](https://madewithwagtail.org/sites/tag/tourism/),"
-            " [Education](https://madewithwagtail.org/sites/tag/education/) |" in body
+            "| Sector | [travel](https://madewithwagtail.org/sites/sector/travel/) |"
+            in body
         )
+        assert (
+            "| Site type | [e-commerce](https://madewithwagtail.org/sites/type/e-commerce/) |"
+            in body
+        )
+        assert (
+            "| Capabilities | [multilingual](https://madewithwagtail.org/sites/capability/multilingual/) |"
+            in body
+        )
+
+    def test_similar_profiles_row_when_hinted(self):
+        # Near-miss developer names create a new profile; similar existing
+        # profiles are surfaced for reviewers to catch duplicates.
+        body = ps.build_pr_body(
+            make_proposal(similar_developers=["frojd", "fr-ojd"]),
+            DETECTION,
+            "r/r",
+            "b",
+            "https://run",
+        )
+        assert (
+            "| Similar profiles | [frojd](https://madewithwagtail.org/developers/frojd/),"
+            " [fr-ojd](https://madewithwagtail.org/developers/fr-ojd/)"
+            " — check this is not a duplicate |" in body
+        )
+        # The row sits right after the Developer row.
+        assert body.index("| Developer |") < body.index("| Similar profiles |")
+
+    def test_similar_profiles_row_omitted_by_default(self):
+        body = ps.build_pr_body(make_proposal(), DETECTION, "r/r", "b", "https://run")
+        assert "Similar profiles" not in body
 
     def test_developer_website_link_fallbacks(self):
         # No developer_url + existing profile: the name links to the profile
         # page so the row still works.
         existing = make_proposal(
-            submission_type="existing-developer",
             developer_exists=True,
             developer_slug="torchbox",
             developer_name="Torchbox",
@@ -183,7 +213,6 @@ class TestPrBody:
         sha = "c" * 40
         body = ps.build_pr_body(
             make_proposal(
-                submission_type="existing-developer",
                 developer_exists=True,
                 developer_slug="torchbox",
                 developer_name="Torchbox",

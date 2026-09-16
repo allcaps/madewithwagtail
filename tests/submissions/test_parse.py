@@ -5,10 +5,6 @@ import process_submission as ps
 CONTENT = __import__("pathlib").Path(__file__).parent / "fixtures" / "content" / "developers"
 
 FORM_BODY = """\
-### Submission type
-
-A new site on an existing profile
-
 ### Site URL
 
 https://example.com
@@ -21,9 +17,17 @@ Example Site
 
 A wonderful site about things.
 
-### Tags
+### Sector
 
-blog, responsive
+technology, education
+
+### Site type
+
+blog, portfolio
+
+### Capabilities
+
+multilingual
 
 ### Developer name
 
@@ -63,9 +67,10 @@ https://example.co/icon.png
 class TestParseIssueFormBody:
     def test_parses_all_sections(self):
         result = ps.parse_issue_form_body(FORM_BODY)
-        assert result["Submission type"] == "A new site on an existing profile"
         assert result["Site URL"] == "https://example.com"
-        assert result["Tags"] == ["blog", "responsive"]
+        assert result["Sector"] == ["technology", "education"]
+        assert result["Site type"] == ["blog", "portfolio"]
+        assert result["Capabilities"] == ["multilingual"]
         assert result["Confirmations"] == [
             ("I am affiliated with this site or have permission to submit it.", True),
             ("This is a production website built with Wagtail.", True),
@@ -80,8 +85,8 @@ class TestParseIssueFormBody:
         )
 
     def test_multiselect_single_value(self):
-        body = FORM_BODY.replace("blog, responsive", "blog")
-        assert ps.parse_issue_form_body(body)["Tags"] == ["blog"]
+        body = FORM_BODY.replace("technology, education", "technology")
+        assert ps.parse_issue_form_body(body)["Sector"] == ["technology"]
 
     def test_empty_answer_is_empty_string(self):
         body = FORM_BODY.replace("https://example.co/icon.png\n", "")
@@ -108,10 +113,6 @@ class TestParseIssueFormBody:
 
 
 NO_RESPONSE_BODY = """\
-### Submission type
-
-A new site and new developer profile
-
 ### Site URL
 
 https://example.com
@@ -124,7 +125,15 @@ Example Site
 
 A wonderful site about things.
 
-### Tags
+### Sector
+
+_No response_
+
+### Site type
+
+_No response_
+
+### Capabilities
 
 _No response_
 
@@ -182,7 +191,8 @@ class TestNoResponsePlaceholder:
             "Other notes",
         ):
             assert result[heading] == [], heading
-        assert result["Tags"] == []
+        for heading in ("Sector", "Site type", "Capabilities"):
+            assert result[heading] == [], heading
 
 
 class TestSectionBoundaries:

@@ -14,10 +14,6 @@ SCRIPT = Path(__file__).resolve().parents[2] / "scripts" / "submissions" / "proc
 CONTENT = Path(__file__).parent / "fixtures" / "content" / "developers"
 
 FORM_BODY = """\
-### Submission type
-
-A new site and new developer profile
-
 ### Site URL
 
 https://example.com
@@ -30,9 +26,17 @@ Example Site
 
 A wonderful site about things.
 
-### Tags
+### Sector
 
-blog, responsive
+technology
+
+### Site type
+
+blog
+
+### Capabilities
+
+multilingual
 
 ### Developer name
 
@@ -87,10 +91,12 @@ class TestBuildProposal:
         proposal = ps.build_proposal(
             FORM_BODY, issue_number=7, content_dir=CONTENT, resolver=fake_resolver
         )
-        assert proposal.submission_type == "new-developer"
+        assert proposal.developer_exists is False
         assert proposal.developer_slug == "example-co"
         assert proposal.site_slug == "example-site"
-        assert proposal.tags == ["blog", "responsive"]
+        assert proposal.sector == ["technology"]
+        assert proposal.site_type == ["blog"]
+        assert proposal.capability == ["multilingual"]
         assert proposal.lat == "59.34"
 
     def test_other_notes_captured(self):
@@ -109,14 +115,50 @@ class TestBuildProposal:
         )
         assert proposal.other_notes is None
 
-    def test_existing_developer_path(self):
-        body = FORM_BODY.replace("A new site and new developer profile", "A new site on an existing profile")
-        body = body.replace("### Developer name\n\nExample Co", "### Developer name\n\nFröjd")
+    def test_existing_developer_inferred_from_exact_name(self):
+        body = FORM_BODY.replace("### Developer name\n\nExample Co", "### Developer name\n\nFröjd")
         proposal = ps.build_proposal(
             body, issue_number=7, content_dir=CONTENT, resolver=fake_resolver
         )
         assert proposal.developer_exists is True
         assert proposal.developer_slug == "frojd"
+
+    def test_existing_developer_inferred_case_insensitive(self):
+        body = FORM_BODY.replace("### Developer name\n\nExample Co", "### Developer name\n\nfröjd")
+        proposal = ps.build_proposal(
+            body, issue_number=7, content_dir=CONTENT, resolver=fake_resolver
+        )
+        assert proposal.developer_exists is True
+        assert proposal.developer_slug == "frojd"
+
+    def test_unmatched_name_starts_new_profile(self):
+        proposal = ps.build_proposal(
+            FORM_BODY, issue_number=7, content_dir=CONTENT, resolver=fake_resolver
+        )
+        assert proposal.developer_exists is False
+        assert proposal.developer_slug == "example-co"
+        assert proposal.similar_developers == []
+
+    def test_near_match_starts_new_profile_with_hint(self):
+        # Not an exact match, so a new profile — but reviewers are told
+        # about the similar existing profile.
+        body = FORM_BODY.replace("### Developer name\n\nExample Co", "### Developer name\n\nFröjd AB")
+        proposal = ps.build_proposal(
+            body, issue_number=7, content_dir=CONTENT, resolver=fake_resolver
+        )
+        assert proposal.developer_exists is False
+        assert proposal.developer_slug == "frojd-ab"
+        assert proposal.similar_developers == ["frojd"]
+
+    def test_rejects_name_whose_slug_already_exists(self):
+        # "Frojd" (no diacritics) doesn't match the "Fröjd" title, but its
+        # slug collides with the existing profile directory.
+        body = FORM_BODY.replace("### Developer name\n\nExample Co", "### Developer name\n\nFrojd")
+        with pytest.raises(ps.Rejection) as excinfo:
+            ps.build_proposal(
+                body, issue_number=7, content_dir=CONTENT, resolver=fake_resolver
+            )
+        assert any("already exists" in r for r in excinfo.value.reasons)
 
     def test_rejects_unconfirmed_permission(self):
         body = FORM_BODY.replace("- [X] I am affiliated", "- [ ] I am affiliated")
@@ -142,7 +184,12 @@ class TestBuildProposal:
             ("GitHub username", "exampleco"),
         ):
             body = body.replace(f"### {label}\n\n{value}\n", f"### {label}\n\n_No response_\n")
-        body = body.replace("### Tags\n\nblog, responsive\n", "### Tags\n\n_No response_\n")
+        for label, value in (
+            ("Sector", "technology"),
+            ("Site type", "blog"),
+            ("Capabilities", "multilingual"),
+        ):
+            body = body.replace(f"### {label}\n\n{value}\n", f"### {label}\n\n_No response_\n")
         proposal = ps.build_proposal(
             body, issue_number=7, content_dir=CONTENT, resolver=fake_resolver
         )
@@ -151,13 +198,9 @@ class TestBuildProposal:
         assert proposal.lat is None
         assert proposal.lon is None
         assert proposal.github_user is None
-        assert proposal.tags == []
-
-    def test_rejects_unknown_existing_developer(self):
-        body = FORM_BODY.replace("A new site and new developer profile", "A new site on an existing profile")
-        with pytest.raises(ps.Rejection) as excinfo:
-            ps.build_proposal(body, issue_number=7, content_dir=CONTENT, resolver=fake_resolver)
-        assert any("developer" in r.casefold() for r in excinfo.value.reasons)
+        assert proposal.sector == []
+        assert proposal.site_type == []
+        assert proposal.capability == []
 
     def test_rejects_private_url(self):
         class Bad(Exception):

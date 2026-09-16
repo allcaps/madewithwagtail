@@ -33,7 +33,9 @@ class TestSiteMarkdown:
             "first_published_at": "2026-08-05T00:00:00+00:00",
             "latest_revision_created_at": "2026-08-05T00:00:00+00:00",
             "site_url": "https://example.com",
-            "tags": ["blog"],
+            "sector": ["technology"],
+            "site_type": ["product"],
+            "capability": ["multilingual"],
         }
         assert text.rstrip().endswith("A wonderful site about things.")
 
@@ -55,7 +57,7 @@ class TestSiteMarkdown:
     def test_all_fields_new_developer(self):
         p = make_proposal()
         text = ps.site_markdown(p)
-        assert "- blog" in text  # tags as a YAML list
+        assert "- technology" in text  # facets as YAML lists
 
     def test_technologies_written_when_detected(self):
         text = ps.site_markdown(
@@ -97,7 +99,7 @@ class TestOutputPaths:
         assert paths["logo"] == ps.Path("src/content/developers/example-co/example-co.max-120x120.webp")
 
     def test_existing_developer_has_no_developer_paths(self):
-        p = make_proposal(submission_type="existing-developer", developer_exists=True, developer_slug="frojd")
+        p = make_proposal(developer_exists=True, developer_slug="frojd")
         paths = ps.output_paths(p)
         assert "developer_md" not in paths
         assert "logo" not in paths

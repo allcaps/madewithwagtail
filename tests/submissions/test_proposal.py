@@ -10,11 +10,12 @@ def make_proposal_kwargs(**overrides):
     kwargs = {
         "schema_version": 1,
         "issue_number": 42,
-        "submission_type": "new-developer",
         "site_url": "https://example.com",
         "site_title": "Example Site",
         "site_description": "A site.",
-        "tags": ["blog"],
+        "sector": ["technology"],
+        "site_type": ["product"],
+        "capability": ["multilingual"],
         "developer_name": "Example Co",
         "developer_slug": "example-co",
         "site_slug": "example-site",
@@ -43,9 +44,9 @@ class TestProposal:
         with pytest.raises(ValidationError):
             ps.Proposal(**make_proposal_kwargs(site_title="x" * 81))
 
-    def test_rejects_too_many_tags(self):
-        with pytest.raises(ValidationError):
-            ps.Proposal(**make_proposal_kwargs(tags=["a", "b", "c", "d", "e", "f"]))
+    def test_similar_developers_default_empty(self):
+        proposal = ps.Proposal(**make_proposal_kwargs())
+        assert proposal.similar_developers == []
 
     def test_rejects_bad_github_user(self):
         with pytest.raises(ValidationError):

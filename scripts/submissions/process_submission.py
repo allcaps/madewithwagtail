@@ -135,7 +135,6 @@ class Proposal(BaseModel):
 
     schema_version: Literal[1]
     issue_number: int = Field(ge=1)
-    submission_type: Literal["existing-developer", "new-developer"]
     site_url: str = Field(min_length=1, max_length=2000)
     site_title: str = Field(min_length=1, max_length=80)
     site_description: str = Field(min_length=1, max_length=800)
@@ -146,6 +145,9 @@ class Proposal(BaseModel):
     developer_slug: str = Field(pattern=SLUG_RE)
     site_slug: str = Field(pattern=SLUG_RE)
     developer_exists: bool
+    # Slugs of existing profiles with a similar name, when the submission
+    # creates a new profile: a reviewer-facing hint against duplicates.
+    similar_developers: list[str] = Field(default_factory=list)
     developer_url: str | None = Field(default=None, max_length=2000)
     developer_location: str | None = Field(default=None, max_length=100)
     lat: str | None = Field(default=None)
@@ -171,7 +173,7 @@ CHECKBOX_RE = re.compile(r"^- \[([xX]| )\] (.*)$", re.MULTILINE)
 # Only the form's own labels are section boundaries: user-typed Markdown
 # containing `### Something` must stay inside the previous field's content.
 SECTION_RE = re.compile(
-    r"^### (?P<heading>Submission type|Site URL|Site title|Short description|Sector|"
+    r"^### (?P<heading>Site URL|Site title|Short description|Sector|"
     r"Site type|Capabilities|"
     r"Developer name|Developer URL|Developer location|Latitude|Longitude|GitHub username|"
     r"Logo URL|Other notes|Confirmations)[ \t]*$",
@@ -181,7 +183,6 @@ SECTION_RE = re.compile(
 # The form renders sections in this exact order; it is the yardstick for
 # telling real sections from headings forged inside free-text fields.
 FORM_HEADINGS = (
-    "Submission type",
     "Site URL",
     "Site title",
     "Short description",
@@ -216,7 +217,7 @@ def parse_issue_form_body(
     are reported as unset (empty list).
     """
     matches = list(SECTION_RE.finditer(body))
-    if not any(match.group("heading") == "Submission type" for match in matches):
+    if not any(match.group("heading") == "Site URL" for match in matches):
         raise FormParseError("Issue body does not look like a site submission form.")
 
     def parse_section(heading: str, content: str):
@@ -1424,7 +1425,7 @@ def cmd_render(argv: list[str]) -> int:
         signals += probe_admin_pages(client, origin)
 
         logo_bytes: bytes | None = None
-        if proposal is not None and proposal.submission_type == "new-developer":
+        if proposal is not None and not proposal.developer_exists:
             # Logo candidates come from the developer's own site (Developer
             # URL), never the submitted site. Best-effort: an unreachable
             # developer page simply yields no icon candidates.
@@ -1465,11 +1466,6 @@ CONFIRMATION_LABELS = (
     "This is a production website built with Wagtail",
 )
 
-SUBMISSION_TYPES = {
-    "A new site and new developer profile": "new-developer",
-    "A new site on an existing profile": "existing-developer",
-}
-
 LAT_RE = re.compile(r"^-?(?:[0-8]?\d|90)(?:\.\d+)?$")
 LON_RE = re.compile(r"^-?(?:\d{1,2}|1[0-7]\d|180)(?:\.\d+)?$")
 
@@ -1496,12 +1492,6 @@ def build_proposal(
     def field(label: str) -> str:
         value = fields.get(label, "")
         return value.strip() if isinstance(value, str) else ""
-
-    # Submission type.
-    submission_type = SUBMISSION_TYPES.get(field("Submission type"))
-    if submission_type is None:
-        reasons.append("Choose one of the two submission types at the top of the form.")
-        submission_type = "existing-developer"
 
     # Confirmations.
     confirmations = fields.get("Confirmations", [])
@@ -1547,31 +1537,25 @@ def build_proposal(
     site_type = facet_values("Site type", SITE_TYPE_VALUES, "site type")
     capability = facet_values("Capabilities", CAPABILITY_VALUES, "capability")
 
-    # Developer existence / slug.
-    developer_exists = submission_type == "existing-developer"
+    # Developer profile, inferred from the name: an exact (case-insensitive)
+    # match against an existing profile title adds the site to that profile,
+    # and any other name starts a new one. Near-misses surface as a
+    # reviewer-facing hint so duplicate profiles are caught at review time.
+    developer_exists = False
     developer_slug = ""
+    similar_developers: list[str] = []
     if developer_name:
-        if developer_exists:
-            devs = existing_developers(content_dir)
-            result = match_developer(developer_name, devs)
-            if isinstance(result, list):
-                hint = (
-                    f" Existing developers with similar names: {', '.join(result)}."
-                    if result
-                    else ""
-                )
-                reasons.append(
-                    f"No developer named {developer_name!r} is listed yet.{hint} "
-                    "Pick the exact name, or submit as a new developer profile."
-                )
-            else:
-                developer_slug = result[0]
-        else:
+        result = match_developer(developer_name, existing_developers(content_dir))
+        if isinstance(result, list):
+            similar_developers = result
             try:
                 developer_slug = make_slug(developer_name)
                 check_slug_free("developer", developer_slug, content_dir)
             except ValueError as exc:
                 reasons.append(f"The developer name is not usable: {exc}")
+        else:
+            developer_exists = True
+            developer_slug = result[0]
 
     # Site slug + dedup.
     site_slug = ""
@@ -1629,7 +1613,6 @@ def build_proposal(
         return Proposal(
             schema_version=1,
             issue_number=issue_number,
-            submission_type=submission_type,
             site_url=site_url,
             site_title=site_title,
             site_description=site_description,
@@ -1640,6 +1623,7 @@ def build_proposal(
             developer_slug=developer_slug,
             site_slug=site_slug,
             developer_exists=developer_exists,
+            similar_developers=similar_developers,
             developer_url=developer_url or None,
             developer_location=location,
             lat=lat,
@@ -1880,6 +1864,16 @@ def build_pr_body(
         "|---|---|",
         f"| Site | <{p.site_url}> |",
         f"| Developer | {_profile_line(p)} |",
+    ]
+    if p.similar_developers:
+        links = ", ".join(
+            f"[{slug}]({LIVE_SITE_URL}/developers/{slug}/)"
+            for slug in p.similar_developers
+        )
+        lines.append(
+            f"| Similar profiles | {links} — check this is not a duplicate |"
+        )
+    lines += [
         f"| Sector | {_facet_links(p.sector, 'sector')} |",
         f"| Site type | {_facet_links(p.site_type, 'type')} |",
         f"| Capabilities | {_facet_links(p.capability, 'capability')} |",
