@@ -1738,6 +1738,68 @@ def developer_markdown(p: Proposal) -> str:
     return _frontmatter_block(frontmatter)
 
 
+# Proposal fields merged into an existing developer profile when provided,
+# mapped to the developer frontmatter keys they update.
+PROFILE_UPDATE_FIELDS = {
+    "developer_url": "company_url",
+    "developer_location": "location",
+    "lat": "lat",
+    "lon": "lon",
+    "github_user": "github_user",
+}
+
+
+def profile_updates(p: Proposal) -> dict[str, str]:
+    """Provided developer details for an existing profile, as
+    {frontmatter key: value}.
+
+    Empty when the submission provides none of these, so a Developer name
+    alone still adds a site without touching the profile.
+    """
+    return {
+        key: value
+        for field, key in PROFILE_UPDATE_FIELDS.items()
+        if (value := getattr(p, field)) is not None
+    }
+
+
+# Frontmatter occupies the file's first "---\n...\n---\n" block; the profile
+# text follows it. Values containing '---' cannot mis-split the extraction.
+FRONTMATTER_SPLIT_RE = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)
+
+
+def update_developer_profile(path: Path, p: Proposal) -> bool:
+    """Merge the provided developer details into an existing profile.
+
+    Only the fields the submitter provided are written; every other
+    frontmatter value and the profile text are left untouched. The revision
+    timestamp is bumped so listing pages reflect the update. Returns False —
+    leaving the file alone — when there is nothing to change.
+    """
+    updates = profile_updates(p)
+    if not updates or not path.exists():
+        return False
+    text = path.read_text(encoding="utf-8")
+    match = FRONTMATTER_SPLIT_RE.match(text)
+    if not match:
+        return False
+    import yaml
+
+    data = yaml.safe_load(match.group(1))
+    if not isinstance(data, dict):
+        return False
+    changed = {key: value for key, value in updates.items() if data.get(key) != value}
+    if not changed:
+        return False
+    data.update(changed)
+    data["latest_revision_created_at"] = _iso(p.submitted_at)
+    body = text[match.end() :].strip()
+    path.write_text(
+        _frontmatter_block(data) + (f"\n{body}\n" if body else ""), encoding="utf-8"
+    )
+    return True
+
+
 def output_paths(p: Proposal) -> dict[str, Path]:
     paths = {
         "site_md": Path(
@@ -1753,6 +1815,12 @@ def output_paths(p: Proposal) -> dict[str, Path]:
         )
         paths["logo"] = Path(
             f"src/content/developers/{p.developer_slug}/{p.developer_slug}.max-120x120.webp"
+        )
+    elif profile_updates(p):
+        # Existing profile with provided details: the profile is updated in
+        # place as part of the submission.
+        paths["developer_md"] = Path(
+            f"src/content/developers/{p.developer_slug}/index.md"
         )
     return paths
 
@@ -1896,9 +1964,13 @@ def build_pr_body(
         ),
         "",
     ]
-    if not p.developer_exists and "developer_md" in paths:
+    if "developer_md" in paths:
         lines += [
-            "### Developer profile page",
+            (
+                "### Developer profile page"
+                if not p.developer_exists
+                else "### Developer profile update"
+            ),
             "",
             _committed_file_url(
                 paths["developer_md"], repo_full_name, head_sha, profile_line_count
@@ -2023,6 +2095,12 @@ def write_content_files(
         if key not in paths:
             continue
         target = repo_root / paths[key]
+        if key == "developer_md" and p.developer_exists:
+            # Existing profile: merge the provided details into it instead
+            # of overwriting; a no-op update leaves the file alone.
+            if update_developer_profile(target, p):
+                written.append(target)
+            continue
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(
             site_markdown(p, technologies)
@@ -2178,11 +2256,11 @@ def cmd_publish(argv: list[str]) -> int:
     )
     head_sha = head.stdout.strip()
     entry_line_count = _file_line_count(args.repo_root / paths["site_md"])
-    # New-developer submissions also commit a developer profile; the PR
-    # body deep-links it with the same file-viewer range.
+    # Submissions that create or update a developer profile deep-link it
+    # with the same file-viewer range.
     profile_line_count = (
         _file_line_count(args.repo_root / paths["developer_md"])
-        if not proposal.developer_exists and "developer_md" in paths
+        if "developer_md" in paths
         else None
     )
     body = build_pr_body(

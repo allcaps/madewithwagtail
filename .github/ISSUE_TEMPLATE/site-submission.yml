@@ -96,7 +96,7 @@ body:
     id: developer-name
     attributes:
       label: Developer name
-      description: 'The agency or developer that built the site (max 80 characters). If it exactly matches an existing profile, the site is added to that profile — otherwise a new profile is created. To add a site to an existing profile, use the name exactly as it appears on the site and skip the other developer fields.'
+      description: 'The agency or developer that built the site (max 80 characters). If it exactly matches an existing profile, the site is added to that profile, and the other developer fields update the profile when provided — otherwise a new profile is created. To add a site to an existing profile, use the name exactly as it appears on the site.'
     validations:
       required: true
   - type: input

@@ -209,6 +209,31 @@ class TestPrBody:
             "src/content/developers/example-co/index.md?plain=1#L1-L9" in body
         )
 
+    def test_profile_update_section_existing_developer(self):
+        # An existing-profile submission with provided details updates the
+        # profile in the same PR, deep-linked under its own heading.
+        sha = "d" * 40
+        body = ps.build_pr_body(
+            make_proposal(
+                developer_exists=True,
+                developer_slug="torchbox",
+                developer_name="Torchbox",
+                developer_location="Oxford, UK",
+            ),
+            DETECTION,
+            "wagtail/madewithwagtail",
+            "submission/issue-42",
+            "https://run",
+            head_sha=sha,
+            entry_line_count=13,
+            profile_line_count=9,
+        )
+        assert "### Developer profile update" in body
+        assert "### Developer profile page" not in body
+        assert (
+            f"src/content/developers/torchbox/index.md?plain=1#L1-L9" in body
+        )
+
     def test_no_profile_page_section_existing_developer(self):
         sha = "c" * 40
         body = ps.build_pr_body(

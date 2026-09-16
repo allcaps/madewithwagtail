@@ -90,6 +90,87 @@ class TestGitAddPaths:
         assert {path.name for path in paths} == {"index.md", "example-site.fill-1200x996.webp"}
 
 
+class TestProfileUpdate:
+    """Existing-profile submissions update the profile when details are provided."""
+
+    def make_profile(self, tmp_path):
+        profile = tmp_path / "src" / "content" / "developers" / "frojd" / "index.md"
+        profile.parent.mkdir(parents=True)
+        profile.write_text(
+            "---\n"
+            "title: Fröjd\n"
+            'first_published_at: "2017-03-14T05:42:09.633251+13:00"\n'
+            'latest_revision_created_at: "2022-01-08T14:48:21.885038+13:00"\n'
+            "location: Stockholm, Sweden\n"
+            "company_url: https://www.frojd.se/\n"
+            "github_user: frojd\n"
+            "online_profiles: []\n"
+            "---\n"
+            "\n"
+            "Fröjd is a full service web agency.\n",
+            encoding="utf-8",
+        )
+        return profile
+
+    def proposal(self, **overrides):
+        return make_proposal(
+            developer_exists=True,
+            developer_slug="frojd",
+            developer_name="Fröjd",
+            **overrides,
+        )
+
+    def test_updates_provided_fields_and_preserves_the_rest(self, tmp_path):
+        profile = self.make_profile(tmp_path)
+        p = self.proposal(developer_location="Gothenburg, Sweden", lat="57.7087")
+        written = ps.write_content_files(p, tmp_path, make_webp(), None)
+        assert profile in written
+        text = profile.read_text(encoding="utf-8")
+        assert "location: Gothenburg, Sweden" in text
+        assert "lat: '57.7087'" in text
+        # Untouched fields and the profile text stay as they were.
+        assert "github_user: frojd" in text
+        assert "company_url: https://www.frojd.se/" in text
+        assert "title: Fröjd" in text
+        assert "Fröjd is a full service web agency." in text
+
+    def test_revision_timestamp_bumped(self, tmp_path):
+        profile = self.make_profile(tmp_path)
+        p = self.proposal(developer_location="Gothenburg, Sweden")
+        ps.write_content_files(p, tmp_path, make_webp(), None)
+        text = profile.read_text(encoding="utf-8")
+        assert "latest_revision_created_at: '2026-08-05T00:00:00+00:00'" in text
+        assert "2017-03-14T05:42:09" in text  # first_published_at untouched
+
+    def test_no_fields_means_no_profile_write(self, tmp_path):
+        # A Developer name alone must still work without touching the profile.
+        profile = self.make_profile(tmp_path)
+        before = profile.read_text(encoding="utf-8")
+        written = ps.write_content_files(self.proposal(), tmp_path, make_webp(), None)
+        assert profile not in written
+        assert profile.read_text(encoding="utf-8") == before
+
+    def test_identical_values_are_a_no_op(self, tmp_path):
+        profile = self.make_profile(tmp_path)
+        before = profile.read_text(encoding="utf-8")
+        p = self.proposal(developer_location="Stockholm, Sweden", github_user="frojd")
+        written = ps.write_content_files(p, tmp_path, make_webp(), None)
+        assert profile not in written
+        assert profile.read_text(encoding="utf-8") == before
+
+    def test_output_paths_include_profile_only_when_updating(self):
+        assert "developer_md" not in ps.output_paths(self.proposal())
+        assert "developer_md" in ps.output_paths(
+            self.proposal(developer_location="Gothenburg, Sweden")
+        )
+
+    def test_missing_profile_is_skipped(self, tmp_path):
+        p = self.proposal(developer_location="Gothenburg, Sweden")
+        assert (
+            ps.update_developer_profile(tmp_path / "nope" / "index.md", p) is False
+        )
+
+
 class TestCommitMessage:
     def test_credits_issue_author(self):
         message = ps.commit_message(make_proposal(), "thibaudcolas", "1234567")

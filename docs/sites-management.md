@@ -8,7 +8,7 @@ Submit new sites and new developer profiles through the [site submission form](h
 
 1. **Validates** the submission — checks the URL, generates slugs, and rejects duplicates.
 2. **Renders** the site in a sandboxed, credential-free job to extract information about how the site is built.
-3. **Publishes** a pull request with the new content for maintainer review.
+3. **Publishes** a pull request with the new content for maintainer review — adding the site to the developer's profile, creating a new profile when needed, and updating an existing profile with any developer details provided in the submission.
 
 Nothing is published automatically: a maintainer reviews and merges the pull request, which closes the original issue. The pipeline's logic lives in `process_submission.py`.
 
