@@ -329,6 +329,9 @@ class TestComments:
         assert "Fill in the site title." in text
         assert "Tick the confirmation." in text
         assert "https://run" in text
+        # Rejected submissions stay open for a maintainer, never closed.
+        assert "needs-triage" in text
+        assert "open a new submission" not in text
 
     def test_failure_comment_names_stage(self):
         text = ps.build_failure_comment("render", "screenshot timeout", "https://run")

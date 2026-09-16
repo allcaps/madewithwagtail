@@ -2048,7 +2048,8 @@ def build_rejection_comment(reasons: list[str], run_url: str) -> str:
     return (
         "Thanks for your submission! Unfortunately it could not be processed:\n\n"
         f"{bullets}\n\n"
-        "Feel free to open a new submission once these points are addressed.\n"
+        "A maintainer will follow up (the issue is labelled needs-triage). "
+        "Feel free to update the submission details here in the meantime.\n"
         + _run_footer(run_url)
     )
 
