@@ -22,9 +22,11 @@ export default defineConfig({
       },
     }),
   ],
-  // Meta-refresh pages for the legacy tag URLs worth preserving; all other
-  // legacy /sites/tag/ URLs are left to 404.
   redirects: {
+    // Neat URL to share for new site submissions.
+    '/new': 'https://github.com/wagtail/madewithwagtail/issues/new?template=site-submission.yml',
+    // Meta-refresh pages for the legacy tag URLs worth preserving; all other
+    // legacy /sites/tag/ URLs are left to 404.
     '/sites/tag/education': '/sites/sector/education/',
     '/sites/tag/blog': '/sites/type/blog/',
     '/sites/tag/portfolio': '/sites/type/portfolio/',
