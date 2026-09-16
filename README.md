@@ -50,4 +50,4 @@ The site is deployed to GitHub Pages on every push to `main`, via GitHub Actions
 
 ## Credits
 
-Thank you to the [contributors](https://github.com/wagtail/madewithwagtail/graphs/contributors) who started the site at a [Springload](https://springload.co.nz) hackathon in Wellington, NZ back in 2015. And to all other contributors who have helped maintain and improve the site over the years. Thank you to the hundreds of site submitters who have shared their Wagtail projects with the community.
+Thank you to the [contributors](https://github.com/wagtail/madewithwagtail/graphs/contributors) who started the site at a [Springload](https://springload.co.nz) hackathon in [Wellington, New Zealand](https://en.wikipedia.org/wiki/Wellington) back in 2015. And to all other contributors who have helped maintain and improve the site over the years. Thank you to the hundreds of site submitters who have shared their Wagtail projects with the community.
